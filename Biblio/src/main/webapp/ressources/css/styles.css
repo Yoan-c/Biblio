@@ -1,4 +1,254 @@
-body{
-    background: #009899;
-    font-family: Georgia, serif;
+body {
+    background : #004C99;
+    font-family: Georgia, Serif, serif;
+    color : white;
 }
+input{
+    border-radius: 8px;
+    border : none;
+}
+.link{
+    background: black;
+    color : white;
+    width: 200px;
+    border-radius: 8px;
+    border: none;
+    height: 25px;
+}
+/*
+*   header
+*/
+header {
+    background: #028586;
+    display : flex;
+    justify-content: space-between;
+    height: 110px;
+    z-index: 1;
+    position: relative;
+}
+.img_menu {
+    position: relative;
+    top : 25px;
+    right : 15px;
+}
+
+.logo{
+    position: relative;
+    margin : 10px;
+    top : 15px;
+    left: 20px;
+}
+.logo img{
+    width: 100px;
+}
+.nav{
+    position: absolute;
+    left : 8%;
+    top : 5.7rem;
+    background: #028586;
+    min-width : 160px;
+    display : none;
+    height: 150px;
+    animation-duration: 3s;
+    animation-name: slidein;
+}
+
+@keyframes slidein {
+    from {
+        left : -60%;
+    }
+
+    to {
+        left: 8%;
+    }
+}
+@keyframes slideout {
+    from {
+        left : 8%;
+    }
+
+    to {
+        left: -60%;
+    }
+}
+
+ul.nav{
+    padding : 15px;
+}
+
+li{
+    list-style: none;
+    padding: 8px;
+}
+a {
+    text-decoration: none;
+    color : white;
+}
+.active{
+    text-decoration: underline white;
+}
+/*
+*   Fin header
+*/
+
+/*
+    main welcome
+ */
+main {
+    min-height: calc(100vh - 160px);
+}
+.welcome {
+    font-size: 12px;
+    font-weight: bold;
+    font-style: italic;
+    text-align: center;
+    position: relative;
+    top : calc((100vh - 100vh / 2) - 110px);
+}
+
+/*
+    connexion
+*/
+.container_connect{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    align-content: center;
+}
+.error_co{
+    color: #785E2F;
+    font-size: 10px;
+    position: absolute;
+    top: 280px;
+    font-weight: bold;
+}
+.form_connect{
+    display: flex;
+    flex-direction: column;
+
+}
+
+.label_form_co{
+    padding: 8px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    color: black;
+    font-weight: bold;
+}
+.id_mdp_co{
+    margin-right: 5px;
+}
+.btn_form_co{
+    align-self: center;
+}
+
+/*
+ creation de compte
+ */
+.error_creat{
+    color: #785E2F;
+    font-size: 10px;
+    position: absolute;
+    top: 170px;
+    font-weight: bold;
+}
+.form_creat_space{
+    margin-bottom: 8px;
+}
+.form_creat{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+.label_form_creat{
+    display: flex;
+    flex-direction: column;
+    color : black;
+    font-weight: bold;
+    padding: 8px;
+}
+.btn_form_creat{
+    align-self: center;
+    margin-top: 10px;
+}
+/*
+fin creation
+*/
+
+/*
+pret
+*/
+ .main_book{
+     display: flex;
+     margin-top: 10px;
+     background: white;
+     width: 90%;
+     justify-content: flex-start;
+     position: relative;
+     left : 5%;
+     border-radius: 20px;
+     flex-direction: column;
+ }
+
+ section{
+     margin: 5px 10px 5px 10px;
+     display: flex;
+     flex-direction: row;
+     align-items: center;
+     align-content: space-around;
+     background: #C4C4C4;
+     border-radius: 20px;
+     border: 5px solid black;
+     color: black;
+     font-weight: bold;
+ }
+ .main_section{
+     margin-top: 10px;
+     margin-bottom: 20px;
+     border: 1px solid red;
+     color : black;
+ }
+ .img_book{
+     padding: 14px;
+ }
+
+ .info_book{
+     font-size: 9px;
+ }
+ .right_info_book{
+     position: relative;
+     top : 18px;
+     float: right;
+     right: 50px;
+ }
+
+ .left_info_book{
+     position: relative;
+     top : -35px;
+     float: left;
+ }
+
+ .reserve_book{
+     position: relative;
+     left : 0px;
+     border-radius: 8px;
+     margin-right: 10px;
+     margin-bottom: 10px;
+ }
+ .btn_reserve_book{
+     padding-top: 5px;
+     padding-bottom: 5px;
+     border :  1px solid #028586;
+     border-radius: 8px;
+     color : #028586;
+     font-weight: bold;
+ }
+ .nav_pret{
+     display: flex;
+     justify-content: center;
+ }
+ .nav_pret p {
+     margin-right: 5px;
+ }
+

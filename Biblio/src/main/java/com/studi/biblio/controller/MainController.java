@@ -17,4 +17,28 @@ public class MainController {
         model.addAttribute("name", name);
         return "home";
     }
+
+    @GetMapping("/connexion")
+    public String connexion(@RequestParam(value = "name", defaultValue = "World") String name, Model model) {
+        model.addAttribute("name", name);
+        return "connexion";
+    }
+
+    @GetMapping("/create_account")
+    public String new_compte(@RequestParam(value = "name", defaultValue = "World") String name, Model model) {
+        model.addAttribute("name", name);
+        return "creationCompte";
+    }
+
+    @GetMapping("/lend")
+    public String lend_book(@RequestParam(value = "name", defaultValue = "World") String name, Model model) {
+        model.addAttribute("name", name);
+        return "pret";
+    }
+
+    @GetMapping("/update")
+    public String update_account(@RequestParam(value = "name", defaultValue = "World") String name, Model model) {
+        model.addAttribute("name", name);
+        return "modifierCompte";
+    }
 }

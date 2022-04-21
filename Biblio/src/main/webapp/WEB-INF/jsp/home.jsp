@@ -1,13 +1,9 @@
 <%@include file="header.jsp" %>
-
-<div class="card" style="width: 18rem;">
-    <img src="..." class="card-img-top" alt="...">
-    <div class="card-body">
-        <h5 class="card-title">home</h5>
-        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-        <a href="#" class="btn btn-primary">Go somewhere</a>
-    </div>
-</div>
+<main>
+    <p class="welcome">
+        Bienvenue sur "Biblio" le site de la bilbiothèque de "Pontault-Combault"
+    </p>
+</main>
 
 
 <%@include file="footer.jsp" %>
