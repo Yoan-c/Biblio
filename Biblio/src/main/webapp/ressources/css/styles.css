@@ -2,10 +2,12 @@ body {
     background : #004C99;
     font-family: Georgia, Serif, serif;
     color : white;
+    font-size: 12px;
 }
 input{
     border-radius: 8px;
     border : none;
+    padding-left: 5px;
 }
 .link{
     background: black;
@@ -23,7 +25,7 @@ header {
     display : flex;
     justify-content: space-between;
     height: 110px;
-    z-index: 1;
+    z-index: 3;
     position: relative;
 }
 .img_menu {
@@ -96,6 +98,7 @@ a {
  */
 main {
     min-height: calc(100vh - 160px);
+    display: flex;
 }
 .welcome {
     font-size: 12px;
@@ -103,7 +106,8 @@ main {
     font-style: italic;
     text-align: center;
     position: relative;
-    top : calc((100vh - 100vh / 2) - 110px);
+    top : calc((100vh / 2) - 110px);
+    height: max-content;
 }
 
 /*
@@ -197,17 +201,17 @@ pret
      flex-direction: row;
      align-items: center;
      align-content: space-around;
-     background: #C4C4C4;
+     background: rgba(196, 196, 196, 0.2);
      border-radius: 20px;
-     border: 5px solid black;
      color: black;
      font-weight: bold;
+
  }
  .main_section{
      margin-top: 10px;
      margin-bottom: 20px;
-     border: 1px solid red;
      color : black;
+
  }
  .img_book{
      padding: 14px;
@@ -231,7 +235,7 @@ pret
 
  .reserve_book{
      position: relative;
-     left : 0px;
+     left : 0;
      border-radius: 8px;
      margin-right: 10px;
      margin-bottom: 10px;
@@ -251,4 +255,262 @@ pret
  .nav_pret p {
      margin-right: 5px;
  }
+
+ /*
+ information
+ */
+
+.info{
+    position: relative;
+    background: white;
+    height: 70vh;
+    margin-top: 10px;
+    flex-grow: 2;
+    justify-content: center;
+}
+
+td{
+    padding: 10px;
+
+}
+.center {
+    text-align: center;
+}
+.link_modif{
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/*
+recherche livre
+*/
+.sect_search{
+    background-color: white;
+    flex-grow: 1;
+    justify-content: center;
+    align-content: flex-start;
+    flex-wrap: wrap;
+    padding-bottom: 15px;
+
+}
+.logo_search{
+    width: 100%;
+    border-radius: 20px;
+    background: white;
+    z-index: 1;
+}
+
+.logo_search>img{
+    position: relative;
+    float: right;
+    margin: 10px;
+    right: 5px;
+}
+.logo_search>hr{
+    color : #004C99;
+    background-color: #004C99;
+    height: 2px;
+    border: none;
+    position: relative;
+    top : 40px;
+    margin: 0;
+}
+
+.sect_search_champs{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    transform: translateY(-120%);
+    z-index: 0;
+    position: absolute;
+   left: 10%;
+    background: white;
+    width: 80%;
+}
+/*
+    animation recherche
+*/
+.slide-in{
+    animation: slide-in 0.5 forwards;
+    -webkit-animation: slide-in 0.5s forwards;
+}
+.slide-out{
+    animation: slide-out 0.5 forwards;
+    -webkit-animation: slide-out 0.5s forwards
+}
+
+@keyframes slide-in {
+    0%{
+        transform: translateY(-120%);
+    }
+    100% {
+        transform: translateY(0%);
+    }
+}
+/*rendre les navigateur compatible*/
+@-webkit-keyframes slide-in {
+    0%{
+        transform: translateY(-120%);
+    }
+    100% {
+        transform: translateY(0%);
+    }
+}
+@keyframes slide-out {
+    0% {
+        transform: translateY(0%);
+    }
+    100% {
+        transform: translateY(-120%);
+    }
+}
+@-webkit-keyframes slide-out {
+    0% {
+        transform: translateY(0%);
+    }
+    100% {
+        transform: translateY(-120%);
+    }
+}
+.search_input_book{
+    border: 1px solid #004C99;
+    width: 100%;
+    margin : 5px 0 5px 0;
+}
+.form_search{
+    display: flex;
+    flex-wrap: wrap;
+    width: 80%;
+}
+
+.form_search label , .search_genre, .search_langue{
+    width: 100%;
+    display: block;
+    margin : 5px 0 5px 0;
+}
+
+.pos_btn_search{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.btn_search{
+    color : white;
+    background: #028586;
+    border-radius: 8px;
+    border: none;
+    width: 80%;
+    height: 25px;
+    margin-top: 10px;
+    font-weight: bold;
+}
+/*
+fin recherche de livre
+ */
+
+/*
+affichage liste livre
+*/
+
+.card_book{
+    background: rgba(196, 196, 196, 0.2);
+    width: 300px;
+    height: 180px;
+    border-radius: 8px;
+    margin-top: 10px;
+    padding: 5px;
+    display: flex;
+}
+
+.right_card{
+    margin-left: 10px;
+}
+
+.btn_info_book{
+    border : none;
+    color : white;
+    background: #004C99;
+    border-radius: 8px;
+    width: 80px;
+    height: 25px;
+}
+
+/*
+modal book
+*/
+.modal_book{
+    display: block;
+    position: fixed;
+    z-index: 2;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal_book_content{
+    background-color: white;
+    margin: 30% auto;
+    border : 1px solid #888;
+    width: 80%;
+    height: 80%;
+}
+.close{
+    color : #aaa;
+    position: relative;
+    float: right;
+    cursor: pointer;
+    font-size: 30px;
+    padding: 0 10px 0 0;
+    font-weight: bold;
+}
+
+.center_modal{
+    color : black;
+    position: relative;
+    top : 40px;
+    left: 5%;
+    display: grid;
+    height: 80%;
+    grid-template-columns: 120px auto;
+    grid-template-rows: 180px;
+    grid-template-areas:
+        "img_book info_book"
+        "desc_book desc_book"
+        "btn btn ";
+}
+
+.left_modal{
+    grid-area: img_book;
+}
+.right_modal{
+    grid-area: info_book;
+    margin-left: 10px;
+    margin-right: 5px;
+    font-weight: bold;
+    font-size: 9px;
+}
+.right_modal p {
+    margin: 2px 0 1px 0;
+}
+
+.desc_book_modal{
+    grid-area: desc_book;
+}
+.bottom_modal{
+    grid-area: btn;
+    display: flex;
+    justify-content: center;
+}
+.btn_reserver{
+    width: 200px;
+    height: 25px;
+    background: #028586;
+    color: white;
+    border : none;
+    border-radius: 8px;
+}
 

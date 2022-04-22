@@ -41,4 +41,22 @@ public class MainController {
         model.addAttribute("name", name);
         return "modifierCompte";
     }
+
+    @GetMapping("/info")
+    public String info_account(@RequestParam(value = "name", defaultValue = "World") String name, Model model) {
+        model.addAttribute("name", name);
+        return "infoCompte";
+    }
+
+    @GetMapping("/search")
+    public String book_list(@RequestParam(value = "name", defaultValue = "World") String name, Model model) {
+        model.addAttribute("name", name);
+        return "livres";
+    }
+
+    @GetMapping("/errconnexion")
+    public String ask_connexion(@RequestParam(value = "name", defaultValue = "World") String name, Model model) {
+        model.addAttribute("name", name);
+        return "demandeConnexion";
+    }
 }

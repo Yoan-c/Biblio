@@ -21,13 +21,13 @@
         <ul id="nav" class="nav">
 
             <li class="left_menu">
-                <a class="active" href="#">Parcourir les livres</a>
+                <a class="active" href="search">Parcourir les livres</a>
             </li>
             <li>
                 <a href="lend">Prêt en cours</a>
             </li>
             <li class="right_menu">
-                <a href="update">Information du compte</a>
+                <a href="info">Information du compte</a>
             </li>
             <li>
                 <a href="deconnexion">Se déconnecter</a>
