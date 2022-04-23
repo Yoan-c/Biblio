@@ -1,6 +1,6 @@
 <%@include file="header.jsp" %>
-<main>
-    <p class="welcome">
+<main class="welcome">
+    <p>
         Vous devez vous connecter ou créer un compte pour acceder au livre de Biblio
     </p>
 </main>

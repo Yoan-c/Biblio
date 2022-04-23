@@ -1,3 +1,4 @@
+html {font-size:10px;}
 body {
     background : #004C99;
     font-family: Georgia, Serif, serif;
@@ -20,6 +21,7 @@ input{
 /*
 *   header
 */
+
 header {
     background: #028586;
     display : flex;
@@ -131,20 +133,19 @@ main {
 */
 .container_connect{
     display: flex;
-    justify-content: space-around;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    align-content: center;
 }
 .error_co{
     color: #785E2F;
     font-size: 10px;
-    position: absolute;
-    top: 280px;
     font-weight: bold;
 }
 .form_connect{
     display: flex;
     flex-direction: column;
+    font-size: 16px;
 
 }
 
@@ -169,14 +170,13 @@ main {
 .error_creat{
     color: #785E2F;
     font-size: 10px;
-    position: absolute;
-    top: 170px;
     font-weight: bold;
 }
 .form_creat_space{
     margin-bottom: 8px;
 }
 .form_creat{
+    font-size: 16px;
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
@@ -256,6 +256,24 @@ pret
      margin-right: 10px;
      margin-bottom: 10px;
  }
+
+ .btn_reserve_book{
+     padding-top: 5px;
+     padding-bottom: 5px;
+     border-radius: 8px;
+     font-weight: bold;
+     border: none;
+ }
+
+ .active_lend{
+     background: #028586;
+     color : white;
+ }
+ .inactive_lend{
+     border :  1px solid #028586;
+     color : #028586;
+ }
+/*
  .btn_reserve_book{
      padding-top: 5px;
      padding-bottom: 5px;
@@ -264,6 +282,7 @@ pret
      color : #028586;
      font-weight: bold;
  }
+  */
  .nav_pret{
      display: flex;
      justify-content: center;
@@ -446,6 +465,9 @@ affichage liste livre
 
 .right_card{
     margin-left: 10px;
+}
+.right_card button{
+    margin-top: 20px;
 }
 
 .btn_info_book{
