@@ -8,7 +8,7 @@
     </div>
         <div class="search">
         <div class="sect_search_champs" id="sect_search_champs">
-            <h1>Recherche </h1>
+            <h1 class="hide">Recherche </h1>
             <form class="form_search">
                 <label for="search_title">Titre :</label>
                 <input type="text" id="search_title" class="search_input_book"/>
@@ -30,57 +30,59 @@
                 </div>
             </form>
         </div>
-            <div class="card_book" id="book_1">
-                <div class="left_card">
-                    <img src="../../ressources/img/45080.jpg" alt="image book" width="120">
-                </div>
-                <div class="right_card">
-                    <p>Titre :</p>
-                    <p>Les pierres du cauchemar</p>
-                    <p>Genre :</p>
-                    <p>Manga</p>
-                    <button class="btn_info_book" id="show_book" onclick="showModal()">Afficher</button>
-                </div>
+            <div class="content_book">
+                <div class="card_book" id="book_1">
+                    <div class="left_card">
+                        <img src="../../ressources/img/45080.jpg" alt="image book" width="120">
+                    </div>
+                    <div class="right_card">
+                        <p class="hide">Titre :</p>
+                        <p>Les pierres du cauchemar</p>
+                        <p class="hide">Genre :</p>
+                        <p>Manga</p>
+                        <button class="btn_info_book" id="show_book" onclick="showModal()">Afficher</button>
+                    </div>
 
-            </div>
-            <div class="card_book">
+                </div>
+                <div class="card_book">
+                    <div class="left_card">
+                        <img src="../../ressources/img/45080.jpg" alt="image book" width="120">
+                    </div>
+                    <div class="right_card">
+                        <p class="hide">Titre :</p>
+                        <p>Les pierres du cauchemar</p>
+                        <p class="hide">Genre :</p>
+                        <p>Manga</p>
+                        <button class="btn_info_book">Afficher</button>
+                    </div>
+
+                </div>
+                <div class="card_book">
+                    <div class="left_card">
+                        <img src="../../ressources/img/45080.jpg" alt="image book" width="120">
+                    </div>
+                    <div class="right_card">
+                        <p class="hide">Titre :</p>
+                        <p>Les pierres du cauchemar</p>
+                        <p class="hide">Genre :</p>
+                        <p>Manga</p>
+                        <button class="btn_info_book">Afficher</button>
+                    </div>
+
+                </div>
+                <div class="card_book">
                 <div class="left_card">
                     <img src="../../ressources/img/45080.jpg" alt="image book" width="120">
                 </div>
                 <div class="right_card">
-                    <p>Titre :</p>
+                    <p class="hide">Titre :</p>
                     <p>Les pierres du cauchemar</p>
-                    <p>Genre :</p>
+                    <p class="hide">Genre :</p>
                     <p>Manga</p>
                     <button class="btn_info_book">Afficher</button>
                 </div>
 
             </div>
-            <div class="card_book">
-                <div class="left_card">
-                    <img src="../../ressources/img/45080.jpg" alt="image book" width="120">
-                </div>
-                <div class="right_card">
-                    <p>Titre :</p>
-                    <p>Les pierres du cauchemar</p>
-                    <p>Genre :</p>
-                    <p>Manga</p>
-                    <button class="btn_info_book">Afficher</button>
-                </div>
-
-            </div>
-            <div class="card_book">
-                <div class="left_card">
-                    <img src="../../ressources/img/45080.jpg" alt="image book" width="120">
-                </div>
-                <div class="right_card">
-                    <p>Titre :</p>
-                    <p>Les pierres du cauchemar</p>
-                    <p>Genre :</p>
-                    <p>Manga</p>
-                    <button class="btn_info_book">Afficher</button>
-                </div>
-
             </div>
 
     </div>
@@ -88,10 +90,10 @@
     </section>
     <div id="modal_book" class="modal_book">
         <div id="modal_book_content" class="modal_book_content">
-            <span class="close" onclick="hideModal()">&times;</span>
+            <span class="close" onclick="hideModal()">&times</span>
             <div class="center_modal">
                 <div class="left_modal">
-                    <img src="../../ressources/img/4450593.jpg" alt="image book" width="120">
+                    <img src="../../ressources/img/4450593.jpg" alt="image book">
                 </div>
                 <div class="right_modal">
                     <p>Titre :</p>

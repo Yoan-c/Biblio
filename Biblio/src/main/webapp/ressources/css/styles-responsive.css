@@ -1,0 +1,338 @@
+@media screen and (min-width: 701px) {
+    /*
+    header
+    */
+    header{
+        justify-content: flex-start;
+    }
+    .img_menu{
+        display: none;
+    }
+    nav{
+        flex-grow: 1;
+    }
+
+    .top_menu{
+        transform: none;
+        position: relative;
+        top : auto;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .left_menu{
+        margin-left: 30px;
+    }
+    .left_m{
+        display: flex;
+    }
+
+    .btn-black{
+        background-color: black;
+        width: 115px;
+        margin: 5px;
+        color : white;
+        height: 30px;
+        border: none;
+        border-radius: 8px;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .btn_plivre{
+        margin-right: 20px;
+    }
+
+    .right_m{
+        display: flex;
+    }
+    .btn-co{
+        margin-right: 10px;
+    }
+    .active{
+        color: #028586;
+        text-decoration: none;
+    }
+    .welcome{
+        font-size: 20px;
+    }
+    /*
+    liste livre
+     */
+    .content_book{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+    }
+    .card_book{
+        display: flex;
+        flex-direction: column;
+        width: auto;
+        height: auto;
+        align-self: flex-start;
+        margin: 15px;
+        padding: 10px;
+    }
+    .left_card{
+        display: flex;
+        justify-content: center;
+        flex-direction: row;
+    }
+    .right_card{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+    }
+    .right_card p {
+        text-align: center;
+        margin: 5px 0;
+    }
+    .right_card button{
+       margin: auto;
+    }
+    .hide{
+        display: none;
+    }
+    .btn_info_book{
+        font-weight: bold;
+    }
+
+    /*
+    modal
+    */
+    .center_modal{
+        grid-template-columns: 150px auto;
+        grid-template-rows: 250px;
+    }
+    .left_modal img{
+        width: 150px;
+    }
+    .modal_book_content{
+        background-color: white;
+        margin: 120px auto;
+        border : 1px solid #888;
+        width: 586px;
+        height: 80%;
+    }
+    .right_modal{
+        font-size: 12px;
+    }
+
+}
+
+@media screen and (min-width: 1024px) {
+
+    body{
+        font-size: 15px;
+    }
+    header{
+        height: 220px;
+        width: 100%;
+    }
+    .logo a img{
+        width: 240px;
+    }
+    nav{
+        font-size: 14px;
+        display: flex;
+        justify-content: space-evenly;
+    }
+    .top_menu{
+        justify-content: space-evenly;
+    }
+
+    .btn_pcours{
+        margin-left: 30px;
+    }
+    .btn-black{
+        width: 129px;
+    }
+    .right_menu{
+        margin-right: 60px;
+    }
+    .btn-cmpt{
+        margin-right: 50px;
+    }
+    .sect_search{
+        margin: 20px;
+    }
+
+    /*
+    modal
+    */
+    .modal_book_content{
+        background-color: white;
+        margin: 150px auto;
+        border : 1px solid #888;
+        width: 586px;
+        height: 80%;
+        z-index: 4;
+    }
+    .center_modal{
+        grid-template-columns: 145px auto;
+        grid-template-rows: 220px;
+    }
+    .left_modal img{
+        width: 140px;
+    }
+    .right_modal{
+        font-size: 12px;
+    }
+    .welcome{
+        font-size: 40px;
+    }
+}
+
+@media screen and (min-width: 1280px) {
+    body, nav{
+        font-size: 20px;
+    }
+    .btn-black{
+        width: 180px;
+        height: 50px;
+    }
+    .left_card img{
+        width: 200px;
+    }
+    .btn_info_book{
+        width: 217px;
+        height: 55px;
+    }
+    .right_card button{
+        margin: 20px;
+    }
+    .modal_book_content{
+        width: 80%;
+    }
+    .center_modal{
+        grid-template-columns: 195px 2fr;
+        grid-template-rows: 300px;
+        left: auto;
+        padding: 40px;
+    }
+    .left_modal img{
+        width: 180px;
+    }
+    .right_modal{
+        font-size: 16px;
+    }
+}
+
+@media screen and (min-width: 1600px) {
+    body, nav{
+        font-size: 30px;
+    }
+    .btn-black{
+        width: 257px;
+        height: 60px;
+    }
+    .logo a img{
+        width: 298px;
+    }
+    header{
+        height: 276px;
+    }
+    .left_card img{
+        width: 274px;
+    }
+    .left_card{
+        margin: 15px;
+    }
+    .btn_info_book{
+        width: 90%;
+    }
+    .logo_search img{
+        width: 40px;
+    }
+    .logo_search>hr{
+        top : 60px;
+    }
+    .pos_btn_search{
+        margin-bottom: 45px;
+    }
+    .btn_search{
+        height: 63px;
+    }
+    .center_modal{
+        grid-template-columns: auto 2fr;
+        grid-template-rows: auto;
+    }
+    .left_modal img{
+        width: 250px;
+    }
+    .right_modal{
+        font-size: 23px;
+    }
+    .btn_reserver{
+        height: 67px;
+        width: 30%;
+    }
+}
+
+@media screen and (min-width: 1600px) {
+    body, nav, .welcome{
+        font-size: 54px;
+    }
+    .btn-black{
+        width: 557px;
+        height: 80px;
+    }
+    .logo a img{
+        width: 400px;
+    }
+    header{
+        height: 350px;
+    }
+    .left_card img{
+        width: 450px;
+    }
+    .left_card{
+        margin: 60px;
+    }
+    .right_card{
+        margin-bottom: 50px;
+    }
+    .btn_info_book{
+        height: 80px;
+    }
+    .btn_reserver{
+        height: 80px;
+    }
+    .left_modal img{
+        width: 450px;
+    }
+    .right_modal{
+        font-size: 40px;
+    }
+    .center_modal{
+        grid-template-columns: 500px 2fr;
+    }
+    .close{
+        font-size: 100px;
+    }
+    .logo_search img{
+        width: 80px;
+    }
+    .logo_search hr{
+       top :120px;
+    }
+    .sect_search{
+        margin: 100px;
+    }
+    .content_book{
+        margin-top: 100px;
+    }
+    .card_book{
+        margin: 50px;
+    }
+    .form_search{
+        margin-bottom: 100px;
+    }
+    .btn_search{
+        margin-top: 120px;
+        height: 80px;
+    }
+}

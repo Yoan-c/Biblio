@@ -25,53 +25,69 @@ header {
     display : flex;
     justify-content: space-between;
     height: 110px;
-    z-index: 3;
     position: relative;
+    z-index: 1;
+    align-items: center;
 }
-.img_menu {
-    position: relative;
-    top : 25px;
-    right : 15px;
-}
+
 
 .logo{
     position: relative;
-    margin : 10px;
-    top : 15px;
-    left: 20px;
+    margin : 10px 0 0 25px;
 }
 .logo img{
     width: 100px;
 }
-.nav{
+.img_menu {
+    margin-right: 40px;
+}
+.top_menu{
     position: absolute;
-    left : 8%;
-    top : 5.7rem;
+    top : 100px;
+    left: 0;
+    width: 200px;
     background: #028586;
-    min-width : 160px;
-    display : none;
-    height: 150px;
-    animation-duration: 3s;
-    animation-name: slidein;
+    transform: translateX(-100%);
+    -webkit-transform: translateX(-100%);
 }
 
-@keyframes slidein {
-    from {
-        left : -60%;
-    }
 
-    to {
-        left: 8%;
+.left_menu{
+    margin: 10px;
+}
+.btn_plivre{
+    margin-bottom: 10px;
+}
+.right_menu{
+    margin: 10px;
+}
+.btn-co{
+    margin-top: 10px;
+}
+.slidein{
+    animation: slidein 0.5s forwards;
+    -webkit-animation: slidein 0.5s forwards;
+}
+.slideout{
+    animation: slideout 0.5s forwards;
+    -webkit-animation: slideout 0.5s forwards;
+}
+@keyframes slidein {
+    0%{
+        transform: translateX(-100%);
+    }
+    100%{
+        transform: translateX(0%);
     }
 }
 @keyframes slideout {
-    from {
-        left : 8%;
+    0%{
+        transform: translateX(0%);
+    }
+    100%{
+        transform: translateX(-100%);
     }
 
-    to {
-        left: -60%;
-    }
 }
 
 ul.nav{
@@ -101,13 +117,13 @@ main {
     display: flex;
 }
 .welcome {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     font-size: 12px;
     font-weight: bold;
     font-style: italic;
     text-align: center;
-    position: relative;
-    top : calc((100vh / 2) - 110px);
-    height: max-content;
 }
 
 /*
@@ -293,6 +309,8 @@ recherche livre
     align-content: flex-start;
     flex-wrap: wrap;
     padding-bottom: 15px;
+    z-index: 0;
+    margin: 20px;
 
 }
 .logo_search{
@@ -322,12 +340,13 @@ recherche livre
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    transform: translateY(-120%);
-    z-index: 0;
+    transform: translateY(-130%);
+    z-index: 2;
     position: absolute;
    left: 10%;
     background: white;
     width: 80%;
+    border-radius: 8px;
 }
 /*
     animation recherche
@@ -343,19 +362,19 @@ recherche livre
 
 @keyframes slide-in {
     0%{
-        transform: translateY(-120%);
+        transform: translateY(-130%);
     }
     100% {
-        transform: translateY(0%);
+        transform: translateY(2%);
     }
 }
 /*rendre les navigateur compatible*/
 @-webkit-keyframes slide-in {
     0%{
-        transform: translateY(-120%);
+        transform: translateY(-130%);
     }
     100% {
-        transform: translateY(0%);
+        transform: translateY(2%);
     }
 }
 @keyframes slide-out {
@@ -363,7 +382,7 @@ recherche livre
         transform: translateY(0%);
     }
     100% {
-        transform: translateY(-120%);
+        transform: translateY(-130%);
     }
 }
 @-webkit-keyframes slide-out {
@@ -371,7 +390,7 @@ recherche livre
         transform: translateY(0%);
     }
     100% {
-        transform: translateY(-120%);
+        transform: translateY(-130%);
     }
 }
 .search_input_book{
@@ -383,6 +402,7 @@ recherche livre
     display: flex;
     flex-wrap: wrap;
     width: 80%;
+    margin-bottom: 10px;
 }
 
 .form_search label , .search_genre, .search_langue{
@@ -441,9 +461,9 @@ affichage liste livre
 modal book
 */
 .modal_book{
-    display: block;
+    display: none;
     position: fixed;
-    z-index: 2;
+    z-index: 4;
     left: 0;
     top: 0;
     width: 100%;
@@ -453,7 +473,7 @@ modal book
 
 .modal_book_content{
     background-color: white;
-    margin: 30% auto;
+    margin: 120px auto;
     border : 1px solid #888;
     width: 80%;
     height: 80%;
@@ -485,6 +505,9 @@ modal book
 
 .left_modal{
     grid-area: img_book;
+}
+.left_modal img{
+    width: 120px;
 }
 .right_modal{
     grid-area: info_book;
