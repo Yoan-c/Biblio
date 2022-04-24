@@ -3,28 +3,30 @@
 
 <main class="container_connect">
     <div class="error_creat">
-        <p>Une erreur est surevenu veuillez vous reconnecter</p>
+        <c:if test="${ is_creat == false }">
+            <p id="msg_err_creat">Une erreur est surevenu veuillez vous reconnecter</p>
+        </c:if>
     </div>
-    <form class="form_creat">
+    <form class="form_creat" method="post" action="create">
         <div class="label_form_creat">
-            <label for="name_create" class="form_creat_space">Nom :</label>
-            <input id="name_create" type="text" name="name"/>
+            <label for="lastName" class="form_creat_space">Nom :</label>
+            <input id="lastName" type="text" name="lastName"/>
         </div>
         <div class="label_form_creat">
-            <label for="surname_creat" class="form_creat_space">Prenom :</label>
-            <input id="surname_creat" type="text" name="surname_create"/>
+            <label for="firstName" class="form_creat_space">Prenom :</label>
+            <input id="firstName" type="text" name="firstName"/>
         </div>
         <div class="label_form_creat">
             <label for="mail_create" class="form_creat_space"> E-mail :</label>
             <input id="mail_create" type="text" name="mail"/>
         </div>
         <div class="label_form_creat">
-            <label for="mdp_create" class="form_creat_space"> Mot de passe :</label>
-            <input id="mdp_create" type="password" name="mdp"/>
+            <label for="password_create" class="form_creat_space"> Mot de passe :</label>
+            <input id="password_create" type="password" name="password"/>
         </div>
         <div class="label_form_creat">
-            <label for="mdp_confirm" class="form_creat_space"> Confirmation du mot de passe :</label>
-            <input id="mdp_confirm" type="password" name="mdp_confirm"/>
+            <label for="password_confirm" class="form_creat_space"> Confirmation du mot de passe :</label>
+            <input id="password_confirm" type="password" name="password_confirm"/>
         </div>
         <div class="btn_form_creat">
             <button class="link">Valider</button>

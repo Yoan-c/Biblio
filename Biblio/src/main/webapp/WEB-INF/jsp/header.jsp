@@ -24,11 +24,16 @@
                 <div class="left_menu">
                     <div class="left_m">
                         <div class="btn-black btn_plivre">
-                            <a class="active " href="#">Parcourir les livres</a>
+                            <a class="active " href="search">Parcourir les livres</a>
                         </div>
+                        <c:if test="${sessionScope.USER_SESSION != null}">
                         <div class="btn-black btn_pcours">
                             <a href="lend">Prêt en cours</a>
                         </div>
+                        </c:if>
+                        <c:if test="${sessionScope.USER_SESSION == null}">
+                            <div style="width: 175px">&nbsp;</div>
+                        </c:if>
                     </div>
                 </div>
                 <div class="right_menu">
