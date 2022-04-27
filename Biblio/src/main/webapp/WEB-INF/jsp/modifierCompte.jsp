@@ -2,34 +2,41 @@
 
 
 <main class="container_connect">
-    <div class="error_creat">
-        <p>Une erreur est surevenu lors de la modification</p>
+    <div class="error_creat" id="errorModif">
+        <c:choose>
+            <c:when test="${success == 2}">
+                <p class="resModifSuccess" id="resModif"> Infomation changé avec succes </p>
+            </c:when>
+
+            <c:when test="${success == 1 }">
+                <p class="errorModifMsg" id="resModif"> Erreur , aucun changement n'a été effectué </p>
+            </c:when>
+        </c:choose>
     </div>
-    <form class="form_creat">
+    <form class="form_creat" method="post" action="updateCompte" id="formModif">
         <div class="label_form_creat">
-            <label for="name_create" class="form_creat_space">Nom :</label>
-            <input id="name_create" type="text" name="name"/>
+            <label for="lastNameModif" class="form_creat_space">Nom :</label>
+            <input id="lastNameModif" type="text" name="lastName" value="<c:out value='${infoCompte[0].lastName}'/>">
         </div>
         <div class="label_form_creat">
-            <label for="surname_creat" class="form_creat_space">Prenom :</label>
-            <input id="surname_creat" type="text" name="surname_create"/>
+            <label for="firstNameModif" class="form_creat_space">Prenom :</label>
+            <input id="firstNameModif" type="text" name="firstName" value="<c:out value='${infoCompte[0].firstName}'/>"/>
         </div>
         <div class="label_form_creat">
-            <label for="mail_create" class="form_creat_space"> E-mail :</label>
-            <input id="mail_create" type="text" name="mail"/>
+            <label for="mailModif" class="form_creat_space"> E-mail :</label>
+            <input id="mailModif" type="mail" name="mail" value="<c:out value='${infoCompte[0].email}'/>"/>
         </div>
         <div class="label_form_creat">
-            <label for="mdp_create" class="form_creat_space"> Mot de passe :</label>
-            <input id="mdp_create" type="password" name="mdp"/>
+            <label for="mdpModif" class="form_creat_space">Nouveau mot de passe :</label>
+            <input id="mdpModif" type="password" name="mdp"/>
         </div>
         <div class="label_form_creat">
-            <label for="mdp_confirm" class="form_creat_space"> Confirmation du mot de passe :</label>
-            <input id="mdp_confirm" type="password" name="mdp_confirm"/>
+            <label for="mdpConfirmModif" class="form_creat_space"> Confirmation du mot de passe :</label>
+            <input id="mdpConfirmModif" type="password" name="mdpConfirm"/>
         </div>
         <div class="btn_form_creat">
-            <button class="link">Valider</button>
+            <button class="link" id="btnValidModif">Valider</button>
         </div>
-
     </form>
 </main>
 

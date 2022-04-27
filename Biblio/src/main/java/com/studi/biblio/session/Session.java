@@ -18,8 +18,6 @@ public class Session {
                 if (sessionUID == null) {
                     session.setAttribute("USER_SESSION", String.valueOf(user.getId()));
                     session.setAttribute("mail", user.getEmail());
-                    System.out.println("SESSION TEST " + request.getSession());
-                    System.out.println("SESSION TEST 2 " + request.getSession().getAttribute("USER_SESSION"));
                     return true;
                 }
 

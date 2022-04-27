@@ -1,4 +1,4 @@
-<%@include file="header.jsp" %>
+<%@include file="header_co.jsp" %>
 
 <main>
     <section class="sect_search">
@@ -9,80 +9,43 @@
         <div class="search">
         <div class="sect_search_champs" id="sect_search_champs">
             <h1 class="hide">Recherche </h1>
-            <form class="form_search">
+            <div class="form_search">
                 <label for="search_title">Titre :</label>
                 <input type="text" id="search_title" class="search_input_book"/>
                 <label for="search_auteur">Auteur :</label>
                 <input type="text" id="search_auteur" class="search_input_book"/>
                 <label for="search_genre">Genre :</label>
                 <select name="sect_genre" id="search_genre" class="search_genre">
-                    <option value="Manga">Manga</option>
-                    <option value="SF">Science-Fiction</option>
-                    <option value="Action">Action</option>
+                    <c:forEach begin="0" end="${genreSize -1 }" varStatus="vsG">
+                        <option value="${genre[vsG.count -1].genre}"><c:out value="${genre[vsG.count -1].genre}"/></option>
+                    </c:forEach>
                 </select>
                 <label for="search_langue">Langue :</label>
                 <select name="sect_langue" id="search_langue" class="search_langue">
-                    <option value="en">Anglais</option>
-                    <option value="fr">Français</option>
+                    <c:forEach begin="0" end="${langueSize -1 }" varStatus="vsL">
+                        <option value="${langue[vsL.count -1].nom}"><c:out value="${langue[vsL.count -1].nom}"/></option>
+                    </c:forEach>
+
                 </select>
                 <div class="pos_btn_search">
-                    <button class="btn_search">Lancer la recherche</button>
+                    <button class="btn_search" id="getSearch" onclick="getSearch()">Lancer la recherche</button>
                 </div>
-            </form>
+            </div>
         </div>
             <div class="content_book">
-                <div class="card_book" id="book_1">
-                    <div class="left_card">
-                        <img src="../../ressources/img/45080.jpg" alt="image book" width="120">
-                    </div>
-                    <div class="right_card">
-                        <p class="hide">Titre :</p>
-                        <p>Les pierres du cauchemar</p>
-                        <p class="hide">Genre :</p>
-                        <p>Manga</p>
-                        <button class="btn_info_book" id="show_book" onclick="showModal()">Afficher</button>
-                    </div>
+                <c:forEach begin="0" end="${booksSize -1 }" varStatus="vs">
 
-                </div>
-                <div class="card_book">
-                    <div class="left_card">
-                        <img src="../../ressources/img/45080.jpg" alt="image book" width="120">
+                    <div class="card_book" id="book_1">
+                        <div class="left_card">
+                            <img src="<c:out value='${booksInfo[vs.count -1 ][0].cover}'/>" alt="image book" width="120">
+                        </div>
+                        <div class="right_card">
+                            <p><c:out value="${booksInfo[vs.count-1][0].title}"></c:out></p>
+                            <p><c:out value="${booksInfo[vs.count-1][4]}"/></p>
+                            <button class="btn_info_book" id="${'show_book'.concat(vs.count)}" onclick="showModal('${booksInfo[vs.count-1][0]}', '${booksInfo[vs.count-1][1]}','${booksInfo[vs.count-1][2]}', '${booksInfo[vs.count-1][3]}', '${booksInfo[vs.count-1][4]}')">Afficher</button>
+                        </div>
                     </div>
-                    <div class="right_card">
-                        <p class="hide">Titre :</p>
-                        <p>Les pierres du cauchemar</p>
-                        <p class="hide">Genre :</p>
-                        <p>Manga</p>
-                        <button class="btn_info_book">Afficher</button>
-                    </div>
-
-                </div>
-                <div class="card_book">
-                    <div class="left_card">
-                        <img src="../../ressources/img/45080.jpg" alt="image book" width="120">
-                    </div>
-                    <div class="right_card">
-                        <p class="hide">Titre :</p>
-                        <p>Les pierres du cauchemar</p>
-                        <p class="hide">Genre :</p>
-                        <p>Manga</p>
-                        <button class="btn_info_book">Afficher</button>
-                    </div>
-
-                </div>
-                <div class="card_book">
-                <div class="left_card">
-                    <img src="../../ressources/img/45080.jpg" alt="image book" width="120">
-                </div>
-                <div class="right_card">
-                    <p class="hide">Titre :</p>
-                    <p>Les pierres du cauchemar</p>
-                    <p class="hide">Genre :</p>
-                    <p>Manga</p>
-                    <button class="btn_info_book">Afficher</button>
-                </div>
-
-            </div>
+                </c:forEach>
             </div>
 
     </div>
@@ -91,37 +54,16 @@
     <div id="modal_book" class="modal_book">
         <div id="modal_book_content" class="modal_book_content">
             <span class="close" onclick="hideModal()">&times</span>
-            <div class="center_modal">
-                <div class="left_modal">
-                    <img src="../../ressources/img/4450593.jpg" alt="image book">
+            <div class="center_modal" id="idCenterModal">
+
+                <div class="left_modal" id="left_modal">
                 </div>
-                <div class="right_modal">
-                    <p>Titre :</p>
-                    <p>Last dance on the straight pier</p>
-                    <p>Auteur :</p>
-                    <p>Sarah Bird</p>
-                    <p>Editeur :</p>
-                    <p>Flammard</p>
-                    <p>Genre :</p>
-                    <p>Roman</p>
-                    <p>Date de pubication</p>
-                    <p>26/10/1989</p>
-                    <p>ISBN :</p>
-                    <p>xxx/x/xxxx/xxxx/x</p>
-                    <p>Disponibilité :</p>
-                    <p>20 disponibles</p>
+                <div class="right_modal" id="right_modal">
 
                 </div>
-                <div class="desc_book_modal">
-                    <h3>Présentation : </h3>
-                    <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin aliquet tincidunt efficitur.
-                        Vestibulum euismod facilisis laoreet. Ut id laoreet lacus. Sed eget libero ante. Phasellus id nisi ipsum.
-                        Nunc auctor sollicitudin lacus vitae mattis.
-                        Praesent pretium consequat magna, quis sollicitudin massa pulvinar et. Sed in tincidunt lorem.</p>
-
+                <div class="desc_book_modal" id="idDescModal">
                 </div>
-                <div class="bottom_modal">
-                    <button class="btn_reserver">Réserver</button>
+                <div class="bottom_modal" id="idBtnModal">
                 </div>
             </div>
         </div>

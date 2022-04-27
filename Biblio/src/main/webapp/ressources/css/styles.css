@@ -17,6 +17,7 @@ input{
     border-radius: 8px;
     border: none;
     height: 25px;
+    cursor: pointer;
 }
 /*
 *   header
@@ -263,15 +264,20 @@ pret
      border-radius: 8px;
      font-weight: bold;
      border: none;
+     cursor: not-allowed;
  }
 
  .active_lend{
      background: #028586;
      color : white;
+     cursor: pointer;
  }
  .inactive_lend{
      border :  1px solid #028586;
      color : #028586;
+ }
+ .desc_book{
+     font-size: 12px;
  }
 /*
  .btn_reserve_book{
@@ -316,6 +322,7 @@ td{
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
 }
 
 /*
@@ -444,6 +451,7 @@ recherche livre
     height: 25px;
     margin-top: 10px;
     font-weight: bold;
+    cursor: pointer;
 }
 /*
 fin recherche de livre
@@ -477,6 +485,7 @@ affichage liste livre
     border-radius: 8px;
     width: 80px;
     height: 25px;
+    cursor: pointer;
 }
 
 /*
@@ -550,12 +559,16 @@ modal book
     display: flex;
     justify-content: center;
 }
+
 .btn_reserver{
     width: 200px;
     height: 25px;
-    background: #028586;
-    color: white;
-    border : none;
     border-radius: 8px;
+    border : none;
+    cursor: pointer;
+}
+.resModif{
+    color : green;
+    font-size: 12px;
 }
 

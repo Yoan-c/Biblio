@@ -2,17 +2,8 @@
 
 <main class="container_connect">
     <div class="error_co">
-        <c:if test="${ is_creat == true }">
-            <p><c:out value="${value}"/></p>
-            <p>Une erreur Reussi</p>
-
-        </c:if>
-        <c:if test="${is_creat == false}">
-        <p>Une erreur est surevenu veuillez vous reconnecter</p>
-
-        </c:if>
     </div>
-    <form class="form_connect" method="post" action="askConnexion">
+    <form class="form_connect" method="post" action="askConnexion" >
         <div class="label_form_co">
             <label for="mail" class="id_email_co"> E-mail :</label>
             <input id="mail" type="text" name="mail"/>

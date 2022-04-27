@@ -1,6 +1,7 @@
 package com.studi.biblio.controller;
 
-import com.studi.biblio.model.*;
+import com.studi.biblio.model.Livre;
+import com.studi.biblio.model.User;
 import com.studi.biblio.repository.*;
 import com.studi.biblio.session.Session;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,16 +12,13 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.sql.Time;
-import java.sql.Timestamp;
 import java.util.*;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
-@Controller
-@RequestMapping(value = {""})
-public class MainController {
+@RestController
+@RequestMapping(value = "json")
+public class MainJsonController {
 
     @Autowired
     private UserRepository user;
@@ -31,16 +29,11 @@ public class MainController {
     @Autowired
     private AuteurRepository author;
     @Autowired
-    private GenreRepository genre;
-    @Autowired
     private PretRepository pretR;
-    @Autowired
-    private LangueRepository langue;
 
-
-    @GetMapping("/")
+    @RequestMapping("/json")
     public String index(String name, Model model) {
-        return "home";
+        return "{home:test}";
     }
 
     @GetMapping("/connexion")
@@ -96,53 +89,20 @@ public class MainController {
     }
 
     @GetMapping("/update")
-    public String update_account(HttpServletRequest request, Model model) {
+    public String update_account(HttpServletRequest request) {
         HttpSession session = request.getSession();
-        if(session != null && session.getAttribute("USER_SESSION") != null) {
-            List<User> lstUser = user.getUserByMail(session.getAttribute("mail").toString());
-            if(lstUser != null){
-                lstUser.get(0).setPassword("");
-                lstUser.get(0).setSel("");
-            }
-            model.addAttribute("infoCompte", lstUser);
+        if(session != null && session.getAttribute("USER_SESSION") != null)
             return "modifierCompte";
-        }
-        else
-            return "redirect:connexion";
-    }
-    @PostMapping("/updateCompte")
-    public String updateCompte(@RequestParam Map<String, String> infoUser,HttpServletRequest request, Model model) {
-        HttpSession session = request.getSession();
-        String idUser = (String) session.getAttribute("USER_SESSION");
-        if(session != null && idUser != null) {
-            int success = user.updateUser(infoUser, idUser);
-            if(success == 1)
-                session.setAttribute("mail", infoUser.get("mail").toString());
-            List<User> lstUser = user.getUserByMail(session.getAttribute("mail").toString());
-            if(lstUser != null){
-                lstUser.get(0).setPassword("");
-                lstUser.get(0).setSel("");
-            }
-            model.addAttribute("infoCompte", lstUser);
-            model.addAttribute("success", success);
-            return "modifierCompte";
-        }
         else
             return "redirect:connexion";
     }
 
     @GetMapping("/info")
-    public String info_account(HttpServletRequest request, Model model) {
+    public String info_account(HttpServletRequest request) {
         HttpSession session = request.getSession();
-        if(session != null && session.getAttribute("USER_SESSION") != null) {
-            List<User> lstUser = user.getUserByMail(session.getAttribute("mail").toString());
-            if(lstUser != null){
-                lstUser.get(0).setPassword("");
-                lstUser.get(0).setSel("");
-            }
-            model.addAttribute("infoCompte", lstUser);
+        if(session != null && session.getAttribute("USER_SESSION") != null)
             return "infoCompte";
-        }else
+        else
             return "redirect:connexion";
     }
 
@@ -150,27 +110,36 @@ public class MainController {
     public String book_list(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         if(session != null && session.getAttribute("USER_SESSION") != null) {
-            List<Genre> g = genre.getAll();
             List<Object> booksInfo = livre.getAllinfoBook();
-            List<Langue> l = langue.getAll();
-            model.addAttribute("langue", l);
-            model.addAttribute("genre", g);
-            model.addAttribute("langueSize", l.size());
-            model.addAttribute("genreSize", g.size());
             model.addAttribute("booksInfo", booksInfo);
+            model.addAttribute("books", livre.getAll());
             model.addAttribute("booksSize", booksInfo.size());
-
+            model.addAttribute("editor", editor.getAll());
+            model.addAttribute("author", author.getAll());
             return "livres";
         }
         else
             return "redirect:errconnexion";
     }
+    @PostMapping("/searchBook")
+    public String book_Search(@RequestParam Map<String, String> info, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        if(session != null && session.getAttribute("USER_SESSION") != null) {
+            Logger logger = Logger.getLogger("");
+            logger.info("/json/searchBook " +info);
+            livre.searchBookInfo(info.get("titre"), info.get("auteur"), info.get("genre"), info.get("langue"));
+            return "ICI";
+        }
+        else
+            return "redirect:errconnexion";
+    }
+
     @PostMapping("/reservation")
     public String ajax_connexion(@RequestParam Map<String, String> info, HttpServletRequest request,  Model model) {
         HttpSession session = request.getSession();
         if(session != null && session.getAttribute("USER_SESSION") != null) {
             int state = user.reserveBook(request, info,  session);
-            return "";
+            return "ICI";
         }
         else{
             return "null";
@@ -184,7 +153,7 @@ public class MainController {
             return "redirect:lend";
         }
         else{
-            return "redirect:lend";
+            return "redirect:error";
         }
     }
     @GetMapping("/errconnexion")
@@ -200,5 +169,13 @@ public class MainController {
         session.invalidate();
         session = null;
         return "redirect:connexion";
+    }
+    @GetMapping("/error")
+    public String errorGet() {
+            return "erreur";
+    }
+    @PostMapping("/error")
+    public String errorPost() {
+        return "erreur";
     }
 }

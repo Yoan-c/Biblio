@@ -69,8 +69,8 @@
     .card_book{
         display: flex;
         flex-direction: column;
-        width: auto;
-        height: auto;
+        width: 150px;
+        height: 320px;
         align-self: flex-start;
         margin: 15px;
         padding: 10px;
@@ -179,7 +179,6 @@
     */
     .modal_book_content{
         background-color: white;
-        margin: 150px auto;
         border : 1px solid #888;
         width: 586px;
         height: 80%;
@@ -215,6 +214,7 @@
         width: 140px;
     }
     .modal_book_content{
+        margin-top: 90px;
         width: 80%;
     }
     .center_modal{
