@@ -54,7 +54,7 @@ public class TokenController {
          */
         if (id != null){
             List<Token> token = tokenR.getTokenByIdToken(id);
-            if(token != null){
+            if(token != null && token.size() > 0){
                 String hash = Empreinte.getHash(id);
 
                 if(!token.get(0).getToken().equals(hash)){

@@ -1,6 +1,7 @@
 package com.studi.biblio.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.studi.biblio.model.User;
 import com.studi.biblio.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,37 +49,18 @@ public class MainJsonController {
 
 
     @PostMapping("askConnexion")
-    public String askConnexion(@RequestParam Map<String, String> userAccount, Model model, HttpServletRequest request) throws JsonProcessingException {
+    public String askConnexion(@RequestParam Map<String, String> userAccount, HttpServletRequest request) throws JsonProcessingException {
         User us =  user.getUserByMail(userAccount);
-       // boolean t = usrC.isCorrectPassword(user, userAccount.get("mail"), userAccount.get("password"));
-        String tokenToto = tokenC.getToken(usrC, user,userAccount.get("mail"), userAccount.get("password"));
-        logger.info("askConnexion: token "+ tokenToto);
-         boolean valideToken = tokenC.isValidToken(tokenToto);
-        logger.info("askConnexion: validtokent "+ valideToken);
-        try {
-            Thread.sleep(6000);//On attend 6 secondes pour dépasser le temps de validié des tokens
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        valideToken = tokenC.isValidToken(tokenToto);
-        logger.info("askConnexion: token valide fin "+ valideToken);
-       /* Session session = new Session();
-        Map<String, String> res = new HashMap<>();
-        boolean is_session = session.creatSession(us, request);
-        String resp;
-        if (is_session) {
-            ObjectMapper mapper = new ObjectMapper();
-            res.put("connection", "success");
-            resp = new ObjectMapper().writeValueAsString(res);
-            return resp;
-        }
-        else{
-            res.put("connection", "failed");
-            resp = new ObjectMapper().writeValueAsString(res);
-            return resp;
-        }*/
-        return null;
-
+        String token = tokenC.getToken(usrC, user,userAccount.get("mail"), userAccount.get("password"));
+        Map<String, String> dataResp = new HashMap<>();
+        dataResp.put("token", token);
+        if(token != null)
+            dataResp.put("isConnect", "true");
+        else
+            dataResp.put("isConnect", "false");
+        ObjectMapper mapper = new ObjectMapper();
+        String jsonString = mapper.writeValueAsString(dataResp);
+        return jsonString;
     }
 
     @GetMapping("/create_account")
@@ -134,6 +116,29 @@ public class MainJsonController {
             return "redirect:connexion";
     }
 
+    @GetMapping("/home")
+    public String home(@RequestParam Map<String, String> info, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        logger.info("home requete "+ info);
+        if(info.get("token") != null && tokenC.isValidToken(info.get("token")))
+        {
+            logger.info("ici requete "+ info);
+            return "ok";
+        }
+        else {
+            return "none";
+        }
+
+          /*  List<Object> booksInfo = livre.getAllinfoBook();
+            model.addAttribute("booksInfo", booksInfo);
+            model.addAttribute("books", livre.getAll());
+            model.addAttribute("booksSize", booksInfo.size());
+            model.addAttribute("editor", editor.getAll());
+            model.addAttribute("author", author.getAll());
+            */
+
+
+    }
     @GetMapping("/search")
     public String book_list(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
