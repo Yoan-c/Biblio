@@ -1,11 +1,16 @@
 package com.studi.biblio.service;
 
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.studi.biblio.model.*;
 import com.studi.biblio.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 import java.util.logging.Logger;
 
@@ -46,6 +51,7 @@ public class LivreService implements LivreRepository {
                 rs.getString("couverture")
         )));
     }
+
     public List<Object> getAllinfoBook() {
         List<Livre> bookList = this.getAll();
         List<Editeur> editor = editeur.getAll();
@@ -69,6 +75,33 @@ public class LivreService implements LivreRepository {
             listObj.add(data);
         }
         return listObj;
+    }
+    public String getAllinfoBook2() throws JsonProcessingException {
+        List<Livre> bookList = this.getAll();
+        List<Editeur> editor = editeur.getAll();
+        List<Auteur> aut = auteur.getAll();
+        List<LivreAuteur> livreAuteur = livreAR.getAll();
+        List<Genre> gender = genre.getAll();
+        List<LivreGenre> LGenre = lGenre.getAll();
+        List<Exemplaire> Lex = livreEx.getAll();
+        List<Object> listObj = new ArrayList<>();
+        String book = "";
+        for (int i = 0; i < bookList.size(); i++){
+            List<Object> data = new ArrayList<Object>();
+            String editeur = searchDataEditeur(bookList.get(i).getEditor(), editor);
+            List<Auteur> lA = searchDataAuteur(bookList.get(i).getIsbn(), livreAuteur, aut);
+            List<Genre> LG = searchDataGenre(bookList.get(i).getIsbn(), LGenre, gender);
+            int nb = searchDataExemplaireDispo(bookList.get(i).getIsbn(), Lex);
+            data.add(bookList.get(i));
+            data.add(lA);
+            data.add(LG);
+            data.add(nb);
+            data.add(editeur);
+            listObj.add(data);
+            ObjectMapper mapper = new ObjectMapper();
+            book = new ObjectMapper().writeValueAsString(listObj);
+        }
+        return book;
     }
     public int searchDataExemplaire(String isbn, List<Exemplaire> exemplaire){
         int nb = 0;
@@ -149,11 +182,12 @@ public class LivreService implements LivreRepository {
         }
     }
 
-    public void searchBookInfo(String titre, String auteur, String genre, String langue){
-        List<Map<String, Object>> lstObj = getAllinfoBook2();
+    public void searchBookInfo(String titre, String auteur, String genre, String langue) throws IOException {
+        List<Object> lstObj = getAllinfoBook();
         logger.info("searchBookInfo : "+ lstObj+" "+ lstObj.size());
         List<Object> lstBook = new ArrayList<>();
-        if(titre != null && !titre.equals("")){
+        test(lstObj);
+        /*if(titre != null && !titre.equals("")){
             searchInfoBookTitle(lstObj, lstBook, titre);
         }
         if(auteur != null && !auteur.equals("")){
@@ -164,31 +198,7 @@ public class LivreService implements LivreRepository {
         }
         if(langue != null && !genre.equals("")){
             searchInfoBookLangue(lstObj, lstBook, langue);
-        }
-    }
-    public List<Map<String, Object>> getAllinfoBook2() {
-        List<Livre> bookList = this.getAll();
-        List<Editeur> editor = editeur.getAll();
-        List<Auteur> aut = auteur.getAll();
-        List<LivreAuteur> livreAuteur = livreAR.getAll();
-        List<Genre> gender = genre.getAll();
-        List<LivreGenre> LGenre = lGenre.getAll();
-        List<Exemplaire> Lex = livreEx.getAll();
-        List<Map<String, Object>> listObj = new ArrayList<>();
-        for (int i = 0; i < bookList.size(); i++){
-            Map<String, Object> data = new HashMap<>();
-            String editeur = searchDataEditeur(bookList.get(i).getEditor(), editor);
-            List<Auteur> lA = searchDataAuteur(bookList.get(i).getIsbn(), livreAuteur, aut);
-            List<Genre> LG = searchDataGenre(bookList.get(i).getIsbn(), LGenre, gender);
-            int nb = searchDataExemplaireDispo(bookList.get(i).getIsbn(), Lex);
-            data.put("book",bookList.get(i));
-            data.put("auteur", lA);
-            data.put("genre", LG);
-            data.put("nb", nb);
-            data.put("editeur", editeur);
-            listObj.add(data);
-        }
-        return listObj;
+        }*/
     }
     public List<Object> searchInfoBookTitle(List<Map<String, Object>> lstObj, List<Object> lstBook, String titre){
         if(lstObj != null){
@@ -218,5 +228,18 @@ public class LivreService implements LivreRepository {
         return null;
     }
 
+    public void test(List<Object> ls) throws IOException {
+        // Creating object of Organisation
+
+        ObjectMapper mapper = new ObjectMapper();
+        List<Object> lst = getAllinfoBook();
+
+        //List<Object> t = new ArrayList<>();
+        //mapper.writeValue ((JsonGenerator) t, lst);
+        String t = new ObjectMapper().writeValueAsString(lst);
+        logger.info("test "+ t);
+        // Insert the data into the object
+    }
 
 }
+

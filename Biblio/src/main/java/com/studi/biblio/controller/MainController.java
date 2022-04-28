@@ -1,5 +1,7 @@
 package com.studi.biblio.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.studi.biblio.model.*;
 import com.studi.biblio.repository.*;
 import com.studi.biblio.session.Session;
@@ -19,10 +21,10 @@ import java.util.logging.Logger;
 
 
 @Controller
-@RequestMapping(value = {""})
+@RequestMapping(value = {"jsp"})
 public class MainController {
 
-    @Autowired
+
     private UserRepository user;
     @Autowired
     private LivreRepository livre;
@@ -147,20 +149,22 @@ public class MainController {
     }
 
     @GetMapping("/search")
-    public String book_list(HttpServletRequest request, Model model) {
+    public String book_list(HttpServletRequest request, Model model) throws JsonProcessingException {
         HttpSession session = request.getSession();
         if(session != null && session.getAttribute("USER_SESSION") != null) {
             List<Genre> g = genre.getAll();
-            List<Object> booksInfo = livre.getAllinfoBook();
+           // List<Object> booksInfo = livre.getAllinfoBook();
+            String booksInfo = livre.getAllinfoBook2();
             List<Langue> l = langue.getAll();
             model.addAttribute("langue", l);
             model.addAttribute("genre", g);
             model.addAttribute("langueSize", l.size());
             model.addAttribute("genreSize", g.size());
-            model.addAttribute("booksInfo", booksInfo);
-            model.addAttribute("booksSize", booksInfo.size());
 
-            return "livres";
+            model.addAttribute("booksInfo", booksInfo);
+            model.addAttribute("booksSize", booksInfo.length());
+
+            return "livres2";
         }
         else
             return "redirect:errconnexion";

@@ -1,25 +1,25 @@
 package com.studi.biblio.controller;
 
-import com.studi.biblio.model.Livre;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.studi.biblio.model.User;
 import com.studi.biblio.repository.*;
-import com.studi.biblio.session.Session;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.*;
 import java.util.logging.Logger;
 
-
+@CrossOrigin(origins = "http://localhost")
 @RestController
 @RequestMapping(value = "json")
 public class MainJsonController {
 
+    Logger logger = Logger.getLogger("");
     @Autowired
     private UserRepository user;
     @Autowired
@@ -31,6 +31,11 @@ public class MainJsonController {
     @Autowired
     private PretRepository pretR;
 
+    @Autowired
+    private UserController usrC;
+    @Autowired
+    private TokenController tokenC;
+
     @RequestMapping("/json")
     public String index(String name, Model model) {
         return "{home:test}";
@@ -40,15 +45,39 @@ public class MainJsonController {
     public String connexion() {
         return "connexion";
     }
+
+
     @PostMapping("askConnexion")
-    public String askConnexion(@RequestParam Map<String, String> userAccount, Model model, HttpServletRequest request){
+    public String askConnexion(@RequestParam Map<String, String> userAccount, Model model, HttpServletRequest request) throws JsonProcessingException {
         User us =  user.getUserByMail(userAccount);
-        Session session = new Session();
+       // boolean t = usrC.isCorrectPassword(user, userAccount.get("mail"), userAccount.get("password"));
+        String tokenToto = tokenC.getToken(usrC, user,userAccount.get("mail"), userAccount.get("password"));
+        logger.info("askConnexion: token "+ tokenToto);
+         boolean valideToken = tokenC.isValidToken(tokenToto);
+        logger.info("askConnexion: validtokent "+ valideToken);
+        try {
+            Thread.sleep(6000);//On attend 6 secondes pour dépasser le temps de validié des tokens
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        valideToken = tokenC.isValidToken(tokenToto);
+        logger.info("askConnexion: token valide fin "+ valideToken);
+       /* Session session = new Session();
+        Map<String, String> res = new HashMap<>();
         boolean is_session = session.creatSession(us, request);
-        if (is_session)
-            return "redirect:lend";
-        else
-            return "redirect:connexion";
+        String resp;
+        if (is_session) {
+            ObjectMapper mapper = new ObjectMapper();
+            res.put("connection", "success");
+            resp = new ObjectMapper().writeValueAsString(res);
+            return resp;
+        }
+        else{
+            res.put("connection", "failed");
+            resp = new ObjectMapper().writeValueAsString(res);
+            return resp;
+        }*/
+        return null;
 
     }
 
@@ -57,18 +86,16 @@ public class MainJsonController {
         return "creationCompte";
     }
 
-    @PostMapping("/create")
-    public String creat_compte(@RequestParam Map<String, String> infoUser, Model model) {
+    @PostMapping("/addUser")
+    public String addUser(@RequestParam Map<String, String> infoUser) {
         boolean is_creat = false;
         is_creat = user.createUser(infoUser);
-        model.addAttribute("is_creat", is_creat);
         if (!is_creat) {
             return "creationCompte";
         }
         else {
             String value = "Connectez vous avec vos identifiant";
-            model.addAttribute("message_co", value);
-            return "redirect:connexion";
+            return value;
         }
     }
 
@@ -76,6 +103,7 @@ public class MainJsonController {
     public String lend_book(String name, Model model, HttpServletRequest req) {
         HttpSession session = req.getSession();
         String idUser = (String) session.getAttribute("USER_SESSION");
+        logger.info("lend_book "+idUser);
         if(session != null && idUser != null) {
 
             List<Object> lstObj = pretR.getPretAllInfo(idUser);
@@ -122,7 +150,7 @@ public class MainJsonController {
             return "redirect:errconnexion";
     }
     @PostMapping("/searchBook")
-    public String book_Search(@RequestParam Map<String, String> info, HttpServletRequest request, Model model) {
+    public String book_Search(@RequestParam Map<String, String> info, HttpServletRequest request, Model model) throws IOException {
         HttpSession session = request.getSession();
         if(session != null && session.getAttribute("USER_SESSION") != null) {
             Logger logger = Logger.getLogger("");

@@ -34,4 +34,23 @@ public class Livre {
 
     @Column (name = "couverture")
     private String cover;
+
+    @Override
+    public String toString()
+    {
+        return "Book [isbn="
+                +isbn
+                + ", bookName="
+                +  title
+                + ", editor="
+                + editor
+                +", datePublication ="
+                +date_publication
+                +", desc="
+                +description
+                +", langue="
+                +langue
+                +", cover="
+                +cover+"]";
+    }
 }

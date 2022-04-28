@@ -12,6 +12,7 @@ import java.util.Map;
 
 @Repository
 public interface UserRepository {
+
     void setDatasource(JdbcpConfig datasource);
     public List<User> selectAll();
     public List<User> getUserByMail(String mail);
@@ -21,5 +22,6 @@ public interface UserRepository {
     public int reserveBook(HttpServletRequest request, Map<String, String> info, HttpSession session);
 
     public int updateUser(Map<String, String> infoUser, String idUser);
+
 
 }

@@ -55,6 +55,7 @@ public class UserService implements UserRepository {
 
     @Override
     public List<User> getUserByMail(String mail) {
+
         if (mail != null && !mail.equals("")) {
             String requete = "SELECT * FROM utilisateur WHERE email = ?";
             List<User> ls =  (JdT.query(requete, new Object[]{mail}, new int[]{VARCHAR}, (rs, rowNum) -> new User(

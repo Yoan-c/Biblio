@@ -150,9 +150,14 @@ function parserBook(d){
     book[info[0].trim()] = info[1].trim();
     return book;
 }
+/*
+    remplissage page
+ */
+    let selectGenre = document.getElementById("search_genre");
 /* modal */
 let modal_book = document.getElementById("modal_book");
 function showModal(dataBook, dataAuteur, dataGenre, exemplaire, editeur){
+    console.log("data "+JSON.parse(dataBook))
     let book = parserdata(dataBook, dataAuteur, dataGenre, exemplaire, editeur);
     let left_modal = document.getElementById("left_modal");
     let getImg = document.getElementById("add_img_modal");
