@@ -155,7 +155,7 @@ public class MainController {
         if(session != null && session.getAttribute("USER_SESSION") != null) {
             List<Genre> g = genre.getAll();
            // List<Object> booksInfo = livre.getAllinfoBook();
-            String booksInfo = livre.getAllinfoBook2();
+            String booksInfo = livre.getAllinfoBook2(null);
             List<Langue> l = langue.getAll();
             model.addAttribute("langue", l);
             model.addAttribute("genre", g);

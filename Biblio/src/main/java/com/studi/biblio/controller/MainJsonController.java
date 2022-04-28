@@ -44,7 +44,7 @@ public class MainJsonController {
     private TokenController tokenC;
     private ObjectMapper mapper = new ObjectMapper();
 
-    
+
     @PostMapping("askConnexion")
     public String askConnexion(@RequestParam Map<String, String> userAccount, HttpServletRequest request) throws JsonProcessingException {
         User us =  user.getUserByMail(userAccount);
@@ -60,17 +60,14 @@ public class MainJsonController {
     }
     @PostMapping("/home")
     public String home(@RequestParam Map<String, String> info) throws JsonProcessingException {
-
         Map<String, String> dataResp = new HashMap<>();
-
         if(info.get("token") != null && tokenC.isValidToken(info.get("token")))
         {
             dataResp.put("token", info.get("token"));
             dataResp.put("isConnect", "true");
-            String booksInfo = livre.getAllinfoBook2();
+            String booksInfo = livre.getAllinfoBook2(null);
             List<Genre> g = genre.getAll();
             List<Langue> l = langue.getAll();
-           // String books = mapper.writeValueAsString(booksInfo);
             String getLangue = mapper.writeValueAsString(l);
             String getGenre = mapper.writeValueAsString(g);
             dataResp.put("langue", getLangue);
@@ -84,7 +81,25 @@ public class MainJsonController {
         String jsonString = mapper.writeValueAsString(dataResp);
         return jsonString;
     }
-
+    @PostMapping("/searchBook")
+    public String book_Search(@RequestParam Map<String, String> info, HttpServletRequest request, Model model) throws IOException {
+        Map<String, String> dataResp = new HashMap<>();
+        if(info.get("token") != null && tokenC.isValidToken(info.get("token")))
+        {
+            Logger logger = Logger.getLogger("");
+            logger.info("/json/searchBook " +info);
+            String books = livre.searchBookInfo(info.get("titre"), info.get("auteur"), info.get("genre"), info.get("langue"));
+            dataResp.put("token", info.get("token"));
+            dataResp.put("isConnect", "true");
+            dataResp.put("book", books);
+        }
+        else {
+            dataResp.put("token", "");
+            dataResp.put("isConnect", "false");
+        }
+        String jsonString = mapper.writeValueAsString(dataResp);
+        return jsonString;
+    }
     @GetMapping("/create_account")
     public String new_compte() {
         return "creationCompte";
@@ -139,33 +154,6 @@ public class MainJsonController {
     }
 
 
-    @GetMapping("/search")
-    public String book_list(HttpServletRequest request, Model model) {
-        HttpSession session = request.getSession();
-        if(session != null && session.getAttribute("USER_SESSION") != null) {
-            List<Object> booksInfo = livre.getAllinfoBook();
-            model.addAttribute("booksInfo", booksInfo);
-            model.addAttribute("books", livre.getAll());
-            model.addAttribute("booksSize", booksInfo.size());
-            model.addAttribute("editor", editor.getAll());
-            model.addAttribute("author", author.getAll());
-            return "livres";
-        }
-        else
-            return "redirect:errconnexion";
-    }
-    @PostMapping("/searchBook")
-    public String book_Search(@RequestParam Map<String, String> info, HttpServletRequest request, Model model) throws IOException {
-        HttpSession session = request.getSession();
-        if(session != null && session.getAttribute("USER_SESSION") != null) {
-            Logger logger = Logger.getLogger("");
-            logger.info("/json/searchBook " +info);
-            livre.searchBookInfo(info.get("titre"), info.get("auteur"), info.get("genre"), info.get("langue"));
-            return "ICI";
-        }
-        else
-            return "redirect:errconnexion";
-    }
 
     @PostMapping("/reservation")
     public String ajax_connexion(@RequestParam Map<String, String> info, HttpServletRequest request,  Model model) {

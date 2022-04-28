@@ -12,4 +12,5 @@ public interface LivreAuteurRepository {
 
     void setDatasource(JdbcpConfig datasource);
     public List<LivreAuteur> getAll();
+    public List<LivreAuteur> getAllIsbnByAuthorName(String id);
 }

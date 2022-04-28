@@ -1,6 +1,5 @@
 package com.studi.biblio.service;
 
-import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.studi.biblio.model.*;
@@ -9,10 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.logging.Logger;
+
+import static java.sql.Types.VARCHAR;
 
 @Service
 public class LivreService implements LivreRepository {
@@ -51,9 +51,70 @@ public class LivreService implements LivreRepository {
                 rs.getString("couverture")
         )));
     }
+    public List<Livre> getBookByName(String name) {
+        String req = "SELECT * FROM livre WHERE titre LIKE ";
+        String n = "'"+name+"%'";
+        req += n;
+        return new ArrayList<>(JdT.query(req, (rs, rowNum) -> new Livre(
+                rs.getString("isbn"),
+                rs.getString("titre"),
+                rs.getLong("id_editeur"),
+                rs.getTimestamp("date_publication"),
+                rs.getString("description"),
+                rs.getString("langue"),
+                rs.getString("couverture")
+        )));
+    }
+    public List<Livre> getBookByLangue(String langue) {
+        String req = "SELECT * FROM livre WHERE langue LIKE ";
+        String n = "'"+langue+"%'";
+        req += n;
+        return new ArrayList<>(JdT.query(req, (rs, rowNum) -> new Livre(
+                rs.getString("isbn"),
+                rs.getString("titre"),
+                rs.getLong("id_editeur"),
+                rs.getTimestamp("date_publication"),
+                rs.getString("description"),
+                rs.getString("langue"),
+                rs.getString("couverture")
+        )));
+    }
+    public List<Livre> getBookByGenre(String genre) {
+        String req = "SELECT * \n" +
+                "FROM `livre_genre` lg, livre l \n" +
+                "WHERE lg.isbn = l.isbn\n" +
+                "AND nom_genre = ?";
+        return new ArrayList<>(JdT.query(req, new Object[]{genre}, new int[]{VARCHAR}, (rs, rowNum) -> new Livre(
+                rs.getString("isbn"),
+                rs.getString("titre"),
+                rs.getLong("id_editeur"),
+                rs.getTimestamp("date_publication"),
+                rs.getString("description"),
+                rs.getString("langue"),
+                rs.getString("couverture")
+        )));
+    }
+    public List<Livre> getBookById(String id) {
+        String req = "SELECT * \n" +
+                "FROM  livre l \n" +
+                "WHERE isbn = ?";
+        return new ArrayList<>(JdT.query(req, new Object[]{id}, new int[]{VARCHAR}, (rs, rowNum) -> new Livre(
+                rs.getString("isbn"),
+                rs.getString("titre"),
+                rs.getLong("id_editeur"),
+                rs.getTimestamp("date_publication"),
+                rs.getString("description"),
+                rs.getString("langue"),
+                rs.getString("couverture")
+        )));
+    }
 
-    public List<Object> getAllinfoBook() {
-        List<Livre> bookList = this.getAll();
+    public List<Object> getAllinfoBook(List<Livre> lstLivre) {
+        List<Livre> bookList = new ArrayList<>();
+        if (lstLivre == null)
+            bookList = this.getAll();
+        else
+            bookList = lstLivre;
         List<Editeur> editor = editeur.getAll();
         List<Auteur> aut = auteur.getAll();
         List<LivreAuteur> livreAuteur = livreAR.getAll();
@@ -76,29 +137,8 @@ public class LivreService implements LivreRepository {
         }
         return listObj;
     }
-    public String getAllinfoBook2() throws JsonProcessingException {
-        List<Livre> bookList = this.getAll();
-        List<Editeur> editor = editeur.getAll();
-        List<Auteur> aut = auteur.getAll();
-        List<LivreAuteur> livreAuteur = livreAR.getAll();
-        List<Genre> gender = genre.getAll();
-        List<LivreGenre> LGenre = lGenre.getAll();
-        List<Exemplaire> Lex = livreEx.getAll();
-        List<Object> listObj = new ArrayList<>();
-        String book = "";
-        for (int i = 0; i < bookList.size(); i++){
-            List<Object> data = new ArrayList<>();
-            String editeur = searchDataEditeur(bookList.get(i).getEditor(), editor);
-            List<Auteur> lA = searchDataAuteur(bookList.get(i).getIsbn(), livreAuteur, aut);
-            List<Genre> LG = searchDataGenre(bookList.get(i).getIsbn(), LGenre, gender);
-            int nb = searchDataExemplaireDispo(bookList.get(i).getIsbn(), Lex);
-            data.add(bookList.get(i));
-            data.add(lA);
-            data.add(LG);
-            data.add(nb);
-            data.add(editeur);
-            listObj.add(data);
-        }
+    public String getAllinfoBook2(List<Livre> lstLivre) throws JsonProcessingException {
+        List<Object> listObj = getAllinfoBook(lstLivre);
         ObjectMapper mapper = new ObjectMapper();
         return mapper.writeValueAsString(listObj);
     }
@@ -181,64 +221,60 @@ public class LivreService implements LivreRepository {
         }
     }
 
-    public void searchBookInfo(String titre, String auteur, String genre, String langue) throws IOException {
-        List<Object> lstObj = getAllinfoBook();
-        logger.info("searchBookInfo : "+ lstObj+" "+ lstObj.size());
-        List<Object> lstBook = new ArrayList<>();
-        test(lstObj);
-        /*if(titre != null && !titre.equals("")){
-            searchInfoBookTitle(lstObj, lstBook, titre);
+    public String searchBookInfo(String titre, String auteur, String genre, String langue) throws IOException {
+        List<Object> lstObj = new ArrayList<>();
+        List<Livre> lstBook = getBookByName(titre);
+        boolean ispassedLangue = false;
+        boolean ispassedGenre = false;
+        if(lstBook.isEmpty()){
+            lstBook = getBookByLangue(langue);
         }
-        if(auteur != null && !auteur.equals("")){
-            searchInfoBookAuteur(lstObj, lstBook, auteur);
+        if(!lstBook.isEmpty() && langue!=null && !langue.equals("")) {
+            ispassedLangue = true;
+            lstBook.removeIf( name  -> (!name.getLangue().equals(langue)));
         }
-        if(genre != null && !genre.equals("")){
-            searchInfoBookGenre(lstObj, lstBook, genre);
-        }
-        if(langue != null && !genre.equals("")){
-            searchInfoBookLangue(lstObj, lstBook, langue);
-        }*/
-    }
-    public List<Object> searchInfoBookTitle(List<Map<String, Object>> lstObj, List<Object> lstBook, String titre){
-        if(lstObj != null){
-                logger.info("test e "+lstObj.get(0).get("book"));
-
-
-            for (int i = 0; i < lstObj.size(); i++){
-                Object title =  lstObj.toArray();
-
-                if (lstObj.get(i).toString().substring(0, titre.length()).indexOf(titre) >= 0){
-                    lstBook.add(lstObj.get(i));
+        if(!genre.equals("")){
+            if(!lstBook.isEmpty()){
+                List<LivreGenre> livreGenre = lGenre.getByName(genre);
+                List<Livre> newLstBook = new ArrayList<>();
+                for(int i = 0 ; i < livreGenre.size(); i++){
+                    String getGenre = livreGenre.get(i).getIsbn();
+                    int index = -1;
+                    for(int j = 0 ; j < lstBook.size(); j ++){
+                        if(lstBook.get(j).getIsbn().equals(getGenre))
+                            newLstBook.add(lstBook.get(j));
+                    }
                 }
+                lstBook = newLstBook;
+            }
+            else if (lstBook.isEmpty() && ispassedLangue == false){
+                lstBook = getBookByGenre(genre);
             }
         }
-        return lstBook;
-    }
-    public List<Object> searchInfoBookAuteur(List<Map<String, Object>> lstObj, List<Object> lstBook, String titre){
-        logger.info("searchinfoBookAuteur "+lstBook);
-        return null;
-    }
-    public List<Object> searchInfoBookGenre(List<Map<String, Object>> lstObj, List<Object> lstBook, String titre){
-        logger.info("searchinfoBookGenre "+lstBook);
-        return null;
-    }
-    public List<Object> searchInfoBookLangue(List<Map<String, Object>> lstObj, List<Object> lstBook, String titre){
-        logger.info("searchinfoBookLangue "+lstBook);
-        return null;
-    }
+        if (!auteur.equals("")){
 
-    public void test(List<Object> ls) throws IOException {
-        // Creating object of Organisation
+            List<LivreAuteur> lstLA = livreAR.getAllIsbnByAuthorName(auteur);
 
-        ObjectMapper mapper = new ObjectMapper();
-        List<Object> lst = getAllinfoBook();
+            if(!lstBook.isEmpty()){
+                List<Livre> newLst = new ArrayList<>();
+                for(int i = 0 ; i < lstLA.size(); i++){
+                    for(int j = 0 ; j < lstBook.size(); j++){
+                        String isbn = lstLA.get(i).getIsbn();
+                        if (lstBook.get(j).getIsbn().equals(isbn)){
+                            newLst.add(lstBook.get(j));
+                        }
+                    }
+                }
+                lstBook = newLst;
+            }
+            else if (lstBook.isEmpty() && ispassedLangue == false && ispassedGenre == false) {
+                for(int i = 0 ; i < lstLA.size(); i++){
+                    lstBook.add((Livre) getBookById(lstLA.get(i).getIsbn()));
+                }
 
-        //List<Object> t = new ArrayList<>();
-        //mapper.writeValue ((JsonGenerator) t, lst);
-        String t = new ObjectMapper().writeValueAsString(lst);
-        logger.info("test "+ t);
-        // Insert the data into the object
+            }
+        }
+        return getAllinfoBook2(lstBook);
     }
-
 }
 

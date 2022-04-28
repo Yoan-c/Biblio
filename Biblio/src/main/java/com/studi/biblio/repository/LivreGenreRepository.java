@@ -11,4 +11,6 @@ public interface LivreGenreRepository {
 
     void setDatasource(JdbcpConfig datasource);
     public List<LivreGenre> getAll();
+
+    List<LivreGenre> getByName(String name);
 }
