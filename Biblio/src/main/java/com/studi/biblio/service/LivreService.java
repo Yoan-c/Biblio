@@ -87,7 +87,7 @@ public class LivreService implements LivreRepository {
         List<Object> listObj = new ArrayList<>();
         String book = "";
         for (int i = 0; i < bookList.size(); i++){
-            List<Object> data = new ArrayList<Object>();
+            List<Object> data = new ArrayList<>();
             String editeur = searchDataEditeur(bookList.get(i).getEditor(), editor);
             List<Auteur> lA = searchDataAuteur(bookList.get(i).getIsbn(), livreAuteur, aut);
             List<Genre> LG = searchDataGenre(bookList.get(i).getIsbn(), LGenre, gender);
@@ -98,10 +98,9 @@ public class LivreService implements LivreRepository {
             data.add(nb);
             data.add(editeur);
             listObj.add(data);
-            ObjectMapper mapper = new ObjectMapper();
-            book = new ObjectMapper().writeValueAsString(listObj);
         }
-        return book;
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.writeValueAsString(listObj);
     }
     public int searchDataExemplaire(String isbn, List<Exemplaire> exemplaire){
         int nb = 0;

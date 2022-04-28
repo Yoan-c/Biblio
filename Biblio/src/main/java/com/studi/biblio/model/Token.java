@@ -37,7 +37,7 @@ public class Token{
         Date dateNow = new Date();
         Calendar c = Calendar.getInstance();
         c.setTime(dateNow);
-        c.add(Calendar.SECOND, 4);
+        c.add(Calendar.HOUR, 1);
         this.validity = new Timestamp(c.getTime().getTime());; //La validité de notre Token est de 4 secondes...
     }
 

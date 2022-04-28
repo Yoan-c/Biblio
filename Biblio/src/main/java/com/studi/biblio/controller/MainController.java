@@ -34,6 +34,7 @@ public class MainController {
     private AuteurRepository author;
     @Autowired
     private GenreRepository genre;
+
     @Autowired
     private PretRepository pretR;
     @Autowired

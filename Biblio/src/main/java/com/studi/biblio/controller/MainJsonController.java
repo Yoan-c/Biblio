@@ -2,6 +2,8 @@ package com.studi.biblio.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.studi.biblio.model.Genre;
+import com.studi.biblio.model.Langue;
 import com.studi.biblio.model.User;
 import com.studi.biblio.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,23 +33,18 @@ public class MainJsonController {
     private AuteurRepository author;
     @Autowired
     private PretRepository pretR;
+    @Autowired
+    private GenreRepository genre;
+    @Autowired
+    private LangueRepository langue;
 
     @Autowired
     private UserController usrC;
     @Autowired
     private TokenController tokenC;
+    private ObjectMapper mapper = new ObjectMapper();
 
-    @RequestMapping("/json")
-    public String index(String name, Model model) {
-        return "{home:test}";
-    }
-
-    @GetMapping("/connexion")
-    public String connexion() {
-        return "connexion";
-    }
-
-
+    
     @PostMapping("askConnexion")
     public String askConnexion(@RequestParam Map<String, String> userAccount, HttpServletRequest request) throws JsonProcessingException {
         User us =  user.getUserByMail(userAccount);
@@ -58,7 +55,32 @@ public class MainJsonController {
             dataResp.put("isConnect", "true");
         else
             dataResp.put("isConnect", "false");
-        ObjectMapper mapper = new ObjectMapper();
+        String jsonString = mapper.writeValueAsString(dataResp);
+        return jsonString;
+    }
+    @PostMapping("/home")
+    public String home(@RequestParam Map<String, String> info) throws JsonProcessingException {
+
+        Map<String, String> dataResp = new HashMap<>();
+
+        if(info.get("token") != null && tokenC.isValidToken(info.get("token")))
+        {
+            dataResp.put("token", info.get("token"));
+            dataResp.put("isConnect", "true");
+            String booksInfo = livre.getAllinfoBook2();
+            List<Genre> g = genre.getAll();
+            List<Langue> l = langue.getAll();
+           // String books = mapper.writeValueAsString(booksInfo);
+            String getLangue = mapper.writeValueAsString(l);
+            String getGenre = mapper.writeValueAsString(g);
+            dataResp.put("langue", getLangue);
+            dataResp.put("genre", getGenre);
+            dataResp.put("book", booksInfo);
+        }
+        else {
+            dataResp.put("token", "");
+            dataResp.put("isConnect", "false");
+        }
         String jsonString = mapper.writeValueAsString(dataResp);
         return jsonString;
     }
@@ -116,29 +138,7 @@ public class MainJsonController {
             return "redirect:connexion";
     }
 
-    @GetMapping("/home")
-    public String home(@RequestParam Map<String, String> info, HttpServletRequest request, Model model) {
-        HttpSession session = request.getSession();
-        logger.info("home requete "+ info);
-        if(info.get("token") != null && tokenC.isValidToken(info.get("token")))
-        {
-            logger.info("ici requete "+ info);
-            return "ok";
-        }
-        else {
-            return "none";
-        }
 
-          /*  List<Object> booksInfo = livre.getAllinfoBook();
-            model.addAttribute("booksInfo", booksInfo);
-            model.addAttribute("books", livre.getAll());
-            model.addAttribute("booksSize", booksInfo.size());
-            model.addAttribute("editor", editor.getAll());
-            model.addAttribute("author", author.getAll());
-            */
-
-
-    }
     @GetMapping("/search")
     public String book_list(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
