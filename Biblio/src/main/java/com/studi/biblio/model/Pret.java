@@ -4,6 +4,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
+import java.sql.Date;
 import java.sql.Timestamp;
 
 @AllArgsConstructor
@@ -24,10 +25,10 @@ public class Pret {
     private boolean renouvellement;
 
     @Column (name = "date_debut")
-    private Timestamp startDate;
+    private Date startDate;
 
     @Column (name = "date_fin")
-    private Timestamp endDate;
+    private Date endDate;
 
     @Column (name = "id_utilisateur")
     private long idUser;

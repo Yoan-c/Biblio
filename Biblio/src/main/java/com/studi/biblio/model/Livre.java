@@ -4,6 +4,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
+import java.sql.Date;
 import java.sql.Timestamp;
 
 @AllArgsConstructor
@@ -26,7 +27,7 @@ public class Livre {
     @Column (name = "editeur")
     private Long editor;
 
-    private Timestamp date_publication;
+    private Date date_publication;
 
     private String description;
 

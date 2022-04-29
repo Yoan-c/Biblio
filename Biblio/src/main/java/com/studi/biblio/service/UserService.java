@@ -14,8 +14,6 @@ import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -112,11 +110,11 @@ public class UserService implements UserRepository {
     public boolean createUser(Map<String, String> infoUser) {
         boolean isMatch;
 
-        pattern = Pattern.compile("^[\\w-\\.]{3,20}@([\\w-]{2,20}\\.)[\\w-]{2,4}$");
+        pattern = Pattern.compile("^[\\w\\.]{3,20}@([\\w-]{2,20}\\.)[\\w-]{2,4}$");
         matcher = pattern.matcher(infoUser.get("mail"));
         isMatch = matcher.matches();
-
         if(isMatch) {
+
             if (infoUser.get("password").equals(infoUser.get("password_confirm"))) {
                 infoUser.put("firstName", verifLength(infoUser.get("firstName"), 20));
                 infoUser.put("lastName", verifLength(infoUser.get("lastName"), 20));
@@ -169,10 +167,9 @@ public class UserService implements UserRepository {
 
     @Override
     public int updateUser(Map<String, String> infoUser, String idUser) {
-        Logger logger = Logger.getLogger("");
         if(infoUser.get("lastName") == null || infoUser.get("firstName") == null || infoUser.get("mail") == null ||
         infoUser.get("mdp") == null || infoUser.get("mdpConfirm") == null || !infoUser.get("mdp").equals(infoUser.get("mdpConfirm"))){
-                return -1;
+            return -1;
         } else {
             updateUserWithParam(infoUser, idUser);
             return 1;

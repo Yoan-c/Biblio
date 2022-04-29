@@ -45,7 +45,7 @@ public class LivreService implements LivreRepository {
                 rs.getString("isbn"),
                 rs.getString("titre"),
                 rs.getLong("id_editeur"),
-                rs.getTimestamp("date_publication"),
+                rs.getDate("date_publication"),
                 rs.getString("description"),
                 rs.getString("langue"),
                 rs.getString("couverture")
@@ -59,7 +59,7 @@ public class LivreService implements LivreRepository {
                 rs.getString("isbn"),
                 rs.getString("titre"),
                 rs.getLong("id_editeur"),
-                rs.getTimestamp("date_publication"),
+                rs.getDate("date_publication"),
                 rs.getString("description"),
                 rs.getString("langue"),
                 rs.getString("couverture")
@@ -73,7 +73,7 @@ public class LivreService implements LivreRepository {
                 rs.getString("isbn"),
                 rs.getString("titre"),
                 rs.getLong("id_editeur"),
-                rs.getTimestamp("date_publication"),
+                rs.getDate("date_publication"),
                 rs.getString("description"),
                 rs.getString("langue"),
                 rs.getString("couverture")
@@ -88,7 +88,7 @@ public class LivreService implements LivreRepository {
                 rs.getString("isbn"),
                 rs.getString("titre"),
                 rs.getLong("id_editeur"),
-                rs.getTimestamp("date_publication"),
+                rs.getDate("date_publication"),
                 rs.getString("description"),
                 rs.getString("langue"),
                 rs.getString("couverture")
@@ -102,7 +102,7 @@ public class LivreService implements LivreRepository {
                 rs.getString("isbn"),
                 rs.getString("titre"),
                 rs.getLong("id_editeur"),
-                rs.getTimestamp("date_publication"),
+                rs.getDate("date_publication"),
                 rs.getString("description"),
                 rs.getString("langue"),
                 rs.getString("couverture")

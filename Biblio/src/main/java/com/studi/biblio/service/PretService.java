@@ -40,8 +40,8 @@ public class PretService implements PretRepository {
         return new ArrayList<>(JdT.query(req, (rs, rowNum) -> new Pret(
                 rs.getLong("id"),
                 rs.getBoolean("renouvellement"),
-                rs.getTimestamp("date_debut"),
-                rs.getTimestamp("date_fin"),
+                rs.getDate("date_debut"),
+                rs.getDate("date_fin"),
                 rs.getLong("id_utilisateur"),
                 rs.getLong("id_exemplaire")
         )));
@@ -225,6 +225,8 @@ public class PretService implements PretRepository {
             return -1;
         List<Map<String, Object>> lst = getPretIsbnId(idUser, isbn);
         if(lst != null && !lst.isEmpty()){
+            Logger log = Logger.getLogger("");
+            log.info("setprolongation "+lst);
             if((boolean)lst.get(0).get("renouvellement") == false){
                 setProloBook(lst.get(0).get("pId").toString(), b);
                 return 1;
