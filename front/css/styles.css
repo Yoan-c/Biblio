@@ -2,7 +2,6 @@ html {font-size:10px;}
 body {
     background : #004C99;
     font-family: Georgia, Serif, serif;
-    color : white;
     font-size: 12px;
 }
 input{
@@ -127,6 +126,7 @@ main {
     font-weight: bold;
     font-style: italic;
     text-align: center;
+    color : white;
 }
 
 /*
@@ -277,7 +277,7 @@ pret
      color : #028586;
  }
  .desc_book{
-     font-size: 12px;
+     font-size: 9px;
  }
 /*
  .btn_reserve_book{
@@ -308,6 +308,8 @@ pret
     margin-top: 10px;
     flex-grow: 2;
     justify-content: center;
+    color : black;
+    font-weight: bold;
 }
 
 td{
@@ -473,6 +475,7 @@ affichage liste livre
 
 .right_card{
     margin-left: 10px;
+
 }
 .right_card button{
     margin-top: 20px;
@@ -571,4 +574,3 @@ modal book
     color : green;
     font-size: 12px;
 }
-

@@ -1,4 +1,4 @@
-package com.studi.biblio.controller;
+package com.studi.biblio.service.controller;
 
 import com.studi.biblio.encode.Empreinte;
 import com.studi.biblio.model.User;

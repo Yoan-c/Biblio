@@ -13,7 +13,7 @@
 <body>
     <header>
         <div class="logo">
-            <a href="/"><img alt="logo" src="img/logo.png"></a>
+            <a href="./"><img alt="logo" src="img/logo.png"></a>
         </div>
         <nav>
             <div id="menu" class="img_menu" >
@@ -23,7 +23,7 @@
                 <div class="left_menu">
                     <div class="left_m">
                         <div class="btn-black btn_plivre">
-                            <a class="active " href="<?=$PATH?>/search">Parcourir les livres</a>
+                            <a class="" href="./">Parcourir les livres</a>
                         </div>
                     </div>
                 </div>

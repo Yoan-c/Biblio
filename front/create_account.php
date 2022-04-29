@@ -1,13 +1,10 @@
-<%@include file="header.jsp" %>
-
+<?php include'./header.php';?>
 
 <main class="container_connect">
     <div class="error_creat">
-        <c:if test="${ is_creat == false }">
-            <p id="msg_err_creat">Une erreur est surevenu veuillez vous reconnecter</p>
-        </c:if>
+        <p id="msg_err_creat" class="hide">Erreur veuillez vous retenter plus tard</p>
     </div>
-    <form class="form_creat" method="post" action="create">
+    <div class="form_creat">
         <div class="label_form_creat">
             <label for="lastName" class="form_creat_space">Nom :</label>
             <input id="lastName" type="text" name="lastName"/>
@@ -29,10 +26,13 @@
             <input id="password_confirm" type="password" name="password_confirm"/>
         </div>
         <div class="btn_form_creat">
-            <button class="link">Valider</button>
+            <button class="link" onclick="createUser()">Valider</button>
         </div>
 
-    </form>
+    </div>
 </main>
 
-<%@include file="footer.jsp" %>
+<?php
+  include './scriptJS.php';
+  include './footer.php';
+?>

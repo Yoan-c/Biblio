@@ -1,4 +1,4 @@
-package com.studi.biblio.controller;
+package com.studi.biblio.service.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -8,27 +8,23 @@ import com.studi.biblio.model.User;
 import com.studi.biblio.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.springframework.ui.Model;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.*;
 
 @CrossOrigin(origins = "http://localhost")
 @RestController
 @RequestMapping(value = "json")
+@Component
 public class MainJsonController {
 
     @Autowired
     private UserRepository user;
     @Autowired
     private LivreRepository livre;
-    @Autowired
-    private EditeurRepository editor;
-    @Autowired
-    private AuteurRepository author;
+
     @Autowired
     private PretRepository pretR;
     @Autowired
@@ -44,8 +40,7 @@ public class MainJsonController {
 
 
     @PostMapping("askConnexion")
-    public String askConnexion(@RequestParam Map<String, String> userAccount, HttpServletRequest request) throws JsonProcessingException {
-        User us =  user.getUserByMail(userAccount);
+    public String askConnexion(@RequestParam Map<String, String> userAccount) throws JsonProcessingException {
         String token = tokenC.getToken(usrC, user,userAccount.get("mail"), userAccount.get("password"));
         Map<String, String> dataResp = new HashMap<>();
         dataResp.put("token", token);
@@ -53,8 +48,7 @@ public class MainJsonController {
             dataResp.put("isConnect", "true");
         else
             dataResp.put("isConnect", "false");
-        String jsonString = mapper.writeValueAsString(dataResp);
-        return jsonString;
+        return mapper.writeValueAsString(dataResp);
     }
     @PostMapping("/home")
     public String home(@RequestParam Map<String, String> info) throws JsonProcessingException {
@@ -76,11 +70,10 @@ public class MainJsonController {
             dataResp.put("token", "");
             dataResp.put("isConnect", "false");
         }
-        String jsonString = mapper.writeValueAsString(dataResp);
-        return jsonString;
+        return mapper.writeValueAsString(dataResp);
     }
     @PostMapping("/searchBook")
-    public String book_Search(@RequestParam Map<String, String> info, HttpServletRequest request, Model model) throws IOException {
+    public String book_Search(@RequestParam Map<String, String> info) throws IOException {
         Map<String, String> dataResp = new HashMap<>();
         if(info.get("token") != null && tokenC.isValidToken(info.get("token")))
         {
@@ -93,8 +86,7 @@ public class MainJsonController {
             dataResp.put("token", "");
             dataResp.put("isConnect", "false");
         }
-        String jsonString = mapper.writeValueAsString(dataResp);
-        return jsonString;
+        return mapper.writeValueAsString(dataResp);
     }
 
     @PostMapping("/lend")
@@ -113,8 +105,7 @@ public class MainJsonController {
             dataResp.put("token", "");
             dataResp.put("isConnect", "false");
         }
-        String jsonString = mapper.writeValueAsString(dataResp);
-        return jsonString;
+        return mapper.writeValueAsString(dataResp);
 
     }
     @PostMapping("/prolonger")
@@ -132,8 +123,7 @@ public class MainJsonController {
             dataResp.put("token", "");
             dataResp.put("isConnect", "false");
         }
-        String jsonString = mapper.writeValueAsString(dataResp);
-        return jsonString;
+        return mapper.writeValueAsString(dataResp);
     }
     @PostMapping("/info")
     public String info_account(@RequestParam Map<String, String> info) throws JsonProcessingException {
@@ -149,8 +139,7 @@ public class MainJsonController {
             dataResp.put("token", "");
             dataResp.put("isConnect", "false");
         }
-        String jsonString = mapper.writeValueAsString(dataResp);
-        return jsonString;
+        return mapper.writeValueAsString(dataResp);
     }
 
     @PostMapping("/update")
@@ -167,8 +156,7 @@ public class MainJsonController {
             dataResp.put("token", "");
             dataResp.put("isConnect", "false");
         }
-        String jsonString = mapper.writeValueAsString(dataResp);
-        return jsonString;
+        return mapper.writeValueAsString(dataResp);
     }
 
     @PostMapping("/updateCompte")
@@ -180,11 +168,10 @@ public class MainJsonController {
                 if (!info.get("mail").equals(info.get("mailModif"))){
                     dataResp.put("token", info.get("token"));
                     dataResp.put("isConnect", "true");
-                    String jsonString = mapper.writeValueAsString(dataResp);
-                    return jsonString;
+                    return mapper.writeValueAsString(dataResp);
                 }
             }
-            int success = user.updateUser(info, String.valueOf(usr.get(0).getId()));
+            user.updateUser(info, String.valueOf(usr.get(0).getId()));
             List<User> lstUser = user.getUserByMail(info.get("mail"));
             if(lstUser != null) {
                 lstUser.get(0).setPassword("");
@@ -199,22 +186,19 @@ public class MainJsonController {
                 dataResp.put("token", "");
                 dataResp.put("isConnect", "false");
             }
-
-            String jsonString = mapper.writeValueAsString(dataResp);
-            return jsonString;
+        return mapper.writeValueAsString(dataResp);
     }
-    
+
     @PostMapping("/addUser")
     public String addUser(@RequestParam Map<String, String> infoUser) {
-        boolean is_creat = false;
+        boolean is_creat;
 
         is_creat = user.createUser(infoUser);
         if (!is_creat) {
             return "false";
         }
         else {
-            String value = "true";
-            return value;
+            return "true";
         }
     }
 }

@@ -1,4 +1,5 @@
 window.onload = ()=>{
+
     /* animation menu */
     let nav = document.getElementById("top_menu");
     let menu = document.getElementById("menu");
@@ -15,6 +16,7 @@ window.onload = ()=>{
     let logo_search = document.getElementById("logo_search");
     let form_search = document.getElementById("sect_search_champs");
     if (logo_search)
+    console.log("test ", logo_search);
         logo_search.addEventListener('click', () => {
             let is_slide = form_search.classList.contains("slide-in");
             let cl = "sect_search_champs";
@@ -54,13 +56,13 @@ window.onload = ()=>{
             setmessageErrorReset("errorModifMsg");
             setmessageErrorReset("resModifSuccess");
             setmessageErrorReset("resModifError");
-            let form = document.getElementById("formModif");
             let lastName = document.getElementById("lastNameModif").value;
             let firstName = document.getElementById("firstNameModif").value;
             let mailModif = document.getElementById("mailModif").value;
             let mdpModif = document.getElementById("mdpModif").value;
             let mdpConfirm = document.getElementById("mdpConfirmModif").value;
-            console.log(lastName, " ", firstName, "", mailModif)
+            let token = document.getElementById("token").value;
+            let mail = document.getElementById("mailCompte").value;
             if (lastName == "" || firstName == "" || mailModif == ""){
                 setmessageErrorModif("Veuillez vérifier les champs");
                 return;
@@ -74,45 +76,28 @@ window.onload = ()=>{
                 return;
             }
             else
-                form.submit();
+                updateUser(lastName, firstName, mailModif, mdpModif, token, mail);
         })
     }
 
 }
 
 function parserAuteur(data){
-    const regex = /Auteur/m;
-    let d = data.split("Auteur");
-    const regexD = /\(/m;
-    const regexF = /\)/m;
-    let auteur = new Object();
-    for(let i = 1; i < d.length; i++){
-        let format = d[i].substring(d[i].search((regexD))+1, d[i].search(regexF));
-        format = format.split(',');
-        let first_name = format[1].split('=')[1];
-        let last_name = format[2].split('=')[1];
-        auteur[i-1] =
-            {
-                'firstName' : first_name,
-                'lastName' : last_name
-            };
+    let auteur = "";
+    let max = Object.keys(data).length;
+    for(let i = 0; i < max; i++){
+        auteur += data[i]["firstName"]+" "+data[i]["lastName"]+", ";
     }
+    auteur = auteur.substring(0, auteur.length-2);
     return auteur;
 }
 
 function parserGenre(data){
-    let dataG = data.substring(1, data.length-2);
-
-    dataG = dataG.split(', ');
-    let genre = new Object();
-    for (let i = 0; i < dataG.length; i++){
-        let g = dataG[i].split('genre=');
-        if (g[1][g[1].length-1]==")"){
-            genre[i] = g[1].substring(0, g[1].length-1);
-        }
-        else
-            genre[i] = g[1];
+    let genre = "";
+    for (let i = 0; i < data.length; i++){
+      genre += data[i]["genre"]+", ";
     }
+    genre = genre.substring(0, genre.length-2);
     return genre;
 }
 
@@ -153,9 +138,16 @@ function parserBook(d){
 /* modal */
 
 let modal_book = document.getElementById("modal_book");
-function showModal(dataBook, dataAuteur, dataGenre, exemplaire, editeur){
-    console.log("data "+JSON.parse(dataBook))
-    let book = parserdata(dataBook, dataAuteur, dataGenre, exemplaire, editeur);
+function showModal(idBook){
+    let infoBook = listBook[idBook];
+    let auteur = parserAuteur(infoBook[1]);
+    let genre = parserGenre(infoBook[2]);
+    let nb = infoBook[3];
+    let edition = infoBook[4];
+    let date = new Date(infoBook[0]["date_publication"]);
+    let formatDate = date.getDate()+" / "+date.getMonth()+" / "+date.getFullYear();
+
+//    let book = parserdata(dataBook, dataAuteur, dataGenre, exemplaire, editeur);
     let left_modal = document.getElementById("left_modal");
     let getImg = document.getElementById("add_img_modal");
     let right_modal = document.getElementById("right_modal");
@@ -166,40 +158,40 @@ function showModal(dataBook, dataAuteur, dataGenre, exemplaire, editeur){
     if(getImg == null){
         let img = document.createElement('img');
 
-        img.src = book.book.cover;
+        img.src = infoBook[0]["cover"];
         img.alt = "image de couverture";
         img.id = "add_img_modal";
         left_modal.appendChild(img);
     }
     else {
-        getImg.src = book.book.cover;
+        getImg.src = infoBook[0]["cover"];
     }
 
     if (firstP_modal == null )
     {
 
-        getFormatP("Titre", book.book.title, right_modal);
-        getFormatP("Auteur", book.auteur, right_modal);
-        getFormatP("Editeur", book.editeur, right_modal);
-        getFormatP("Genre", book.genre, right_modal);
-        getFormatP("Langue", book.book.langue, right_modal);
-        getFormatP("Date de publication", book.book.date_publication.split(" ")[0], right_modal);
-        getFormatP("ISBN", book.book.isbn, right_modal);
-        getFormatP("Disponibilité", book.exemplaire, right_modal);
-        formatDesc("Présentation", book.book, descModal);
-        formatBtn(book.exemplaire, divBtnModal);
+        getFormatP("Titre", infoBook[0]["title"], right_modal);
+        getFormatP("Auteur", auteur, right_modal);
+        getFormatP("Editeur", edition, right_modal);
+        getFormatP("Genre", genre, right_modal);
+        getFormatP("Langue", infoBook[0]["langue"], right_modal);
+        getFormatP("Date de publication", formatDate, right_modal);
+        getFormatP("ISBN", infoBook[0]["isbn"], right_modal);
+        getFormatP("Disponibilité", nb, right_modal);
+        formatDesc("Présentation", infoBook[0]["description"], descModal);
+        formatBtn(nb, divBtnModal);
     }
     else{
-        getChangeInfoP("Titre", book.book.title, right_modal);
-        getChangeInfoP("Auteur", book.auteur, right_modal);
-        getChangeInfoP("Editeur", book.editeur, right_modal);
-        getChangeInfoP("Genre", book.genre, right_modal);
-        getChangeInfoP("Langue", book.book.langue, right_modal);
-        getChangeInfoP("Date de publication", book.book.date_publication.split(" ")[0], right_modal);
-        getChangeInfoP("ISBN", book.book.isbn, right_modal);
-        getChangeInfoP("Disponibilité", book.exemplaire, right_modal);
-        formatDescModify("Présentation", book.book, descModal);
-        formatBtnModify(book.exemplaire, divBtnModal);
+        getChangeInfoP("Titre",infoBook[0]["title"], right_modal);
+        getChangeInfoP("Auteur", auteur, right_modal);
+        getChangeInfoP("Editeur", edition, right_modal);
+        getChangeInfoP("Genre", genre, right_modal);
+        getChangeInfoP("Langue", infoBook[0]["langue"], right_modal);
+        getChangeInfoP("Date de publication", formatDate, right_modal);
+        getChangeInfoP("ISBN",  infoBook[0]["isbn"], right_modal);
+        getChangeInfoP("Disponibilité", nb, right_modal);
+        formatDescModify("Présentation", infoBook[0]["description"], descModal);
+        formatBtnModify(nb, divBtnModal);
     }
     modal_book.style.display= "block";
 }
@@ -245,25 +237,6 @@ function formatBtn(nb, divBtnModal) {
 
 
 }
-
- function formatAuteur(data){
-    let d= "";
-    for(key in data){
-        d += data[key].firstName+" "+data[key].lastName+", ";
-    }
-    d = d.substring(0, d.length-2);
-    return d;
- }
-
- function formatGenre(data){
-    let d = "";
-     for(key in data){
-         d += data[key]+", ";
-     }
-     d = d.substring(0, d.length-2);
-     return d;
- }
-
  function formatDesc(title, data, desc){
     let h3 = document.createElement('h3');
     h3.textContent = title+" : ";
@@ -271,25 +244,19 @@ function formatBtn(nb, divBtnModal) {
     let centerM = document.getElementById("idCenterModal");
      let p = document.createElement('p');
      p.id = "idDesc";
-     p.textContent = data.description
+     p.textContent = data
      desc.appendChild(h3);
      desc.appendChild(p);
  }
 
  function formatDescModify(title, data, desc){
      let p = document.getElementById("idDesc");
-     p.textContent = data.description
+     p.textContent = data
 
 }
 function getFormatP(title, data, r_modal){
     let p = document.createElement('p');
 
-    if (title == 'Genre'){
-        data = formatGenre(data);
-    }
-    if (title == 'Auteur'){
-        data = formatAuteur(data);
-    }
     p.textContent = title+" : "+data;
     if (title == "Disponibilité")
         p.id = "idDispo";
@@ -301,12 +268,6 @@ function getFormatP(title, data, r_modal){
 }
 function getChangeInfoP(title, data, r_modal) {
     let p = document.getElementById("id" + title);
-    if (title == 'Genre'){
-        data = formatGenre(data);
-    }
-    if (title == 'Auteur'){
-        data = formatAuteur(data);
-    }
 
     if (title == "Disponibilité") {
         p = document.getElementById("idDispo");
@@ -319,4 +280,141 @@ function getChangeInfoP(title, data, r_modal) {
 }
 function hideModal(){
     modal_book.style.display= "none";
+}
+
+let nav = document.getElementById("top_menu");
+let menu = document.getElementById("menu");
+let nbclick = 0;
+menu.addEventListener('click', () => {
+    let is_slide = nav.classList.contains("slidein");
+    let cl = "top_menu";
+    nav.setAttribute('class', (is_slide) ? cl+" slideout" : cl+" slidein");
+
+});
+
+/* animation recherche */
+
+let logo_search = document.getElementById("logo_search");
+let form_search = document.getElementById("sect_search_champs");
+if (logo_search)
+    logo_search.addEventListener('click', () => {
+        let is_slide = form_search.classList.contains("slide-in");
+        let cl = "sect_search_champs";
+        form_search.setAttribute('class', (is_slide) ? cl+" slide-out" : cl+" slide-in");
+    })
+
+// a tester
+function setmessageErrorModif(message){
+    let errorModif = document.getElementById("errorModif");
+    let p = document.getElementById("errorModifMsg");
+    if (p == null){
+        p = document.createElement("p");
+        p.id = "errorModifMsg";
+    }
+    p.textContent = message;
+    errorModif.appendChild(p);
+}
+function setmessageErrorReset(id){
+    let errorModif = document.getElementById(id);
+    if (errorModif){
+        errorModif.textContent = "";
+    }
+}
+function ValidateEmail(mail)
+{
+    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail))
+    {
+        return (true)
+    }
+    return (false)
+}
+
+let btnForm = document.getElementById("btnValidModif");
+if(btnForm){
+    btnForm.addEventListener('click', (e) => {
+        e.preventDefault();
+        setmessageErrorReset("errorModifMsg");
+        setmessageErrorReset("resModifSuccess");
+        setmessageErrorReset("resModifError");
+        let form = document.getElementById("formModif");
+        let lastName = document.getElementById("lastNameModif").value;
+        let firstName = document.getElementById("firstNameModif").value;
+        let mailModif = document.getElementById("mailModif").value;
+        let mdpModif = document.getElementById("mdpModif").value;
+        let mdpConfirm = document.getElementById("mdpConfirmModif").value;
+        let token = document.getElementById("token").value;
+        let mailCompte = document.getElementById("mailCompte").value;
+        if (lastName == "" || firstName == "" || mailModif == ""){
+            setmessageErrorModif("Veuillez vérifier les champs");
+            return;
+        }
+        else if(!ValidateEmail(mailModif)){
+            setmessageErrorModif("Veuillez vérifier votre adresse mail");
+            return;
+        }
+        else if(mdpModif !== mdpConfirm || mdpConfirm == "" || mdpModif == "") {
+            setmessageErrorModif("Les mots de passe doivent être identique");
+            return;
+        }
+        else
+            updateUser(lastName, firstName, mailModif, mdpModif, token, mailCompte, mdpConfirm);
+    })
+}
+
+
+// Creation DOM RECHERCHE
+function createDom(data){
+
+  data = JSON.parse(data);
+  let dataJson = data["book"];
+  let books = JSON.parse(data["book"]);
+  listBook = books;
+  document.getElementById("contentBook").remove();
+  let idBook = document.getElementById("book_1");
+  let divContentBook= document.createElement("div");
+  divContentBook.setAttribute('class', 'content_book');
+  divContentBook.id = "contentBook";
+  for (let i = 0 ; i < books.length; i++)
+  {
+      // div content
+
+      // card
+      let card = document.createElement("div");
+      card.setAttribute("class", "card_book");
+      // left card
+      let lcard = document.createElement("div");
+      lcard.setAttribute("class", "left_card");
+      let limg = document.createElement("img");
+      limg.src = books[i][0]["cover"];
+      limg.alt="image de couverture";
+      limg.setAttribute("width", "120");
+
+      lcard.appendChild(limg);
+      card.appendChild(lcard);
+
+      // partie droite card
+      let rcard = document.createElement("div");
+      rcard.setAttribute("class", "right_card");
+      let p = document.createElement("p");
+      let p2 = document.createElement("p");
+      p.textContent = books[i][0]["title"];
+      p2.textContent = books[i][4];
+      let button = document.createElement("button");
+      button.setAttribute("class", "btn_info_book");
+      button.id="show_book"+i;
+      button.setAttribute("onclick", "showModal("+i+")");
+      button.textContent = "Afficher";
+      rcard.appendChild(p);
+      rcard.appendChild(p2);
+      rcard.appendChild(button);
+      card.appendChild(rcard);
+      divContentBook.appendChild(card);
+    }
+    // ajout dans la recherche de la page
+    let search = document.getElementById("search");
+    search.appendChild(divContentBook);
+      is_slide = form_search.classList.contains("slide-in");
+      let classN = "sect_search_champs";
+      form_search.setAttribute('class', (is_slide) ? classN+" slide-out" : classN+" slide-in");
+
 }

@@ -1,4 +1,4 @@
-package com.studi.biblio.controller;
+package com.studi.biblio.service.controller;
 
 import com.studi.biblio.encode.Empreinte;
 import com.studi.biblio.model.Token;
@@ -11,7 +11,6 @@ import org.springframework.stereotype.Controller;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 @Controller
 public class TokenController {
