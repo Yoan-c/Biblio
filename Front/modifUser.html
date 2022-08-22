@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>book</title>
+    <link rel="stylesheet" href="css/normalize.css" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="css/styles-responsive.css" />
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <a href="./book.html"><img alt="logo" src="img/logo.png" width="200px"></a>
+        </div>
+        <nav>
+            <div id="menu" class="img_menu">
+                <img src="img/hamburger-menu-icon-transparent-21.jpg" alt="logo" width="45px" />
+            </div>
+            <div class="top_menu" id="top_menu">
+                <div class="left_menu">
+                    <div class="left_m">
+                        <div class="btn-black btn_plivre">
+                            <a id="idAllBook" href="./book.html">Parcourir les livres</a>
+                        </div>
+                        <div class="btn-black btn_pcours">
+                            <a id="idLendBook" href="./lend.html">Prêt en cours</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="right_menu">
+                    <div class="right_m">
+                        <div class="btn-black btn-cmpt">
+                            <a id="InfoBook" href="./infoUser.html" class="active">Information du compte</a>
+                        </div>
+                        <div class="btn-black btn-co">
+                            <a href="./deconnexion.html">Se déconnecter</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <main class="container_connect">
+        <div class="error_creat" id="errorModif">
+
+            <p class="resModifSuccess hide" id="resModif"></p>
+
+            <p class="errorModifMsg hide" id="resModif"></p>
+
+        </div>
+        <form class="form_creat" method="POST" action="" id="formModif">
+            <div class="label_form_creat">
+                <label for="lastNameModif" class="form_creat_space">Nom :</label>
+                <input id="lastNameModif" type="text" name="lastName">
+            </div>
+            <div class="label_form_creat">
+                <label for="firstNameModif" class="form_creat_space">Prenom :</label>
+                <input id="firstNameModif" type="text" name="firstName" />
+            </div>
+            <div class="label_form_creat">
+                <label for="mailModif" class="form_creat_space"> E-mail :</label>
+                <input id="mailModif" type="mail" name="mail" />
+            </div>
+            <div class="label_form_creat">
+                <label for="mdpModif" class="form_creat_space">Nouveau mot de passe :</label>
+                <input id="mdpModif" type="password" name="mdp" />
+            </div>
+            <div class="label_form_creat">
+                <label for="mdpConfirmModif" class="form_creat_space"> Confirmation du mot de passe :</label>
+                <input id="mdpConfirmModif" type="password" name="mdpConfirm" />
+            </div>
+            <div class="btn_form_creat">
+                <button class="link" id="btnValidModif">Valider</button>
+            </div>
+        </form>
+    </main>
+    <script type="text/javascript" src="./js/script.js"></script>
+    <script type="text/javascript" src="./js/function.js"></script>
+    <script type="text/javascript" src="./js/modifUser.js"></script>
+</body>
+
+</html>

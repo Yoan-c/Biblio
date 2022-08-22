@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>book</title>
+    <link rel="stylesheet" href="css/normalize.css" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="css/styles-responsive.css" />
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <a href="./book.html"><img alt="logo" src="img/logo.png" width="200px"></a>
+        </div>
+        <nav>
+            <div id="menu" class="img_menu">
+                <img src="img/hamburger-menu-icon-transparent-21.jpg" alt="logo" width="45px" />
+            </div>
+            <div class="top_menu" id="top_menu">
+                <div class="left_menu">
+                    <div class="left_m">
+                        <div class="btn-black btn_plivre">
+                            <a id="idAllBook" href="./book.html">Parcourir les livres</a>
+                        </div>
+                        <div class="btn-black btn_pcours">
+                            <a id="idLendBook" href="./lend.html">Prêt en cours</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="right_menu">
+                    <div class="right_m">
+                        <div class="btn-black btn-cmpt">
+                            <a id="InfoBook" href="./infoUser.html" class="active">Information du compte</a>
+                        </div>
+                        <div class="btn-black btn-co">
+                            <a href="./deconnexion.html">Se déconnecter</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <section class="info">
+
+            <table>
+                <tr>
+                    <td>Nom : </td>
+                    <td>
+                        <span id="nameId"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Prénom : </td>
+                    <td>
+                        <span id="prenomId"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>E-mail : </td>
+                    <td>
+                        <span id="mailId"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="center">
+                        <div class="link link_modif">
+                            <a href="./modifUser.html" class="">Modifier les informations</a>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </section>
+    </main>
+    <script type="text/javascript" src="./js/function.js"></script>
+    <script type="text/javascript" src="./js/script.js"></script>
+    <script type="text/javascript" src="./js/infoUser.js"></script>
+</body>
+
+</html>
